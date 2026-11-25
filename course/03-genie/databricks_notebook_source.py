@@ -5,7 +5,7 @@
 # MAGIC %md
 # MAGIC # Assignment 03 — Genie
 # MAGIC
-# MAGIC Enter your assigned catalog and personal scratch schema. Genie space setup
+# MAGIC Enter your assigned catalog and personal scratch schema. Genie Agent setup
 # MAGIC is a UI exercise; the notebook creates the synthetic data source only.
 
 # COMMAND ----------
@@ -37,7 +37,9 @@ AS t(order_id, amount, status, order_date)
 spark.sql(f"COMMENT ON TABLE {orders} IS 'SYNTHETIC e-commerce orders. Revenue is sum(amount) where status is paid.'")
 spark.sql(f"ALTER TABLE {orders} ALTER COLUMN order_id COMMENT 'Synthetic order identifier.'")
 spark.sql(f"ALTER TABLE {orders} ALTER COLUMN amount COMMENT 'Synthetic order amount in EUR.'")
-spark.sql(f"ALTER TABLE {orders} ALTER COLUMN status COMMENT 'Synthetic status: paid, pending, or refund. Only paid counts as revenue.'")
+spark.sql(
+    f"ALTER TABLE {orders} ALTER COLUMN status COMMENT 'Synthetic status: paid, pending, or refund. Only paid counts as revenue.'"
+)
 spark.sql(f"ALTER TABLE {orders} ALTER COLUMN order_date COMMENT 'Synthetic order date.'")
 spark.sql(f"DESCRIBE TABLE {orders}").show(truncate=False)
 
@@ -55,9 +57,9 @@ ORDER BY month
 # MAGIC %md
 # MAGIC ## Deliverable
 # MAGIC
-# MAGIC Follow LESSON.md to create a Genie space, add two instructions and a trusted query,
-# MAGIC and review the SQL behind three questions. Record the space name, questions,
-# MAGIC SQL review, and one instruction you refined. Keep the space through topic 04
+# MAGIC Follow LESSON.md to create a Genie Agent, add two instructions and a trusted query,
+# MAGIC and review the SQL behind three questions. Record the agent name, questions,
+# MAGIC SQL review, and one instruction you refined. Keep the agent through topic 04
 # MAGIC and the table through topics 05, 07 and 13.
 
 # COMMAND ----------

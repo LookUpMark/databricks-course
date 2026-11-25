@@ -18,30 +18,30 @@ tasks:
 
   # ── Code quality ──────────────────────────────────────────────────────
   # Ruff: blazing-fast Python linter + formatter (one tool instead of
-  # flake8/isort/black). Lints src, tasks and tests.
+  # flake8/isort/black). Lints the course and package.
   ruff-check:
     desc: Ruff check (report only, no modifications)
     cmds:
-      - uv run ruff check src tasks tests
+      - uv run ruff check course src tasks tests
 
   ruff-fix:
     desc: Ruff check with autofix
     cmds:
       # --fix automatically corrects auto-fixable issues
-      - uv run ruff check --fix src tasks tests
+      - uv run ruff check --fix course src tasks tests
 
   ruff-format:
     desc: Format the code with ruff
     cmds:
       # Reformats (black equivalent)
-      - uv run ruff format src tasks tests
+      - uv run ruff format course src tasks tests
 
   format-check:
     desc: Verify formatting without modifying anything
     cmds:
       # --check does not touch files: it fails if something is unformatted
       # (useful in CI)
-      - uv run ruff format --check src tasks tests
+      - uv run ruff format --check course src tasks tests
 
   lint:
     desc: Full check (ruff check + format check)
@@ -71,7 +71,7 @@ tasks:
     desc: Install/sync dependencies with uv
     cmds:
       # --dev also includes dependency-groups (pytest, ruff, databricks-connect...)
-      - uv sync --dev
+      - uv sync --locked --dev
 
   build:
     desc: Build the project wheel
@@ -87,7 +87,6 @@ tasks:
     cmds:
       # Dev target: resources prefixed "[dev <user>]", schedules paused
       - databricks bundle deploy --target {{.DBX_TARGET_DEV}}
-
 
   validate:
     desc: Validate the bundle configuration without deploying

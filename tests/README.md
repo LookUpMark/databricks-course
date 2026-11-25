@@ -2,7 +2,7 @@
 
 These optional developer checks cover the demonstration [Python package](../src/playbook/README.md). The course notebooks run in Databricks.
 
-From the repository root, install the locked developer dependencies and run the offline suite:
+From the repository root, install the locked developer dependencies and run the offline suite (also selected by `uv run pytest`):
 
 ```bash
 uv sync --locked --dev

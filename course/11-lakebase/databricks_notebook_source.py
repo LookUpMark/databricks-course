@@ -62,7 +62,9 @@ SELECT * FROM VALUES
   (3, 'power_user', 0.88, DATE'2026-11-22')
 AS t(user_id, segment, engagement_score, last_seen_date)
 """)
-spark.sql(f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example UC source for an optional Lakebase snapshot exercise.'")
+spark.sql(
+    f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example UC source for an optional Lakebase snapshot exercise.'"
+)
 print(f"Created {src}.lakebase_source")
 
 # COMMAND ----------

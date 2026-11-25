@@ -1,6 +1,6 @@
 # Databricks notebook source
 # Assignment 09 - Lakeflow Jobs.
-# This companion illustrates the job context. The bundle job itself uses src/sample_notebook.py.
+# Companion lesson notebook; the real bundle job runs src/sample_notebook.py.
 
 # COMMAND ----------
 # MAGIC %md
@@ -26,18 +26,14 @@ if not identifier.fullmatch(catalog) or not identifier.fullmatch(schema):
     raise ValueError("catalog and schema must be simple Unity Catalog identifiers (letters, digits, underscores).")
 
 # COMMAND ----------
-# DBTITLE 1,Exercise 1 — prove you are running inside a job
-
-try:
-    ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
-    job_group_id = ctx.jobGroupId().getOrElse(None)
-    run_id = ctx.jobRunId().getOrElse(None)
-    print(f"Job group id: {job_group_id}")
-    print(f"Job run id:   {run_id}")
-    if job_group_id is None:
-        print("Interactive run: attach this notebook as a task to see real ids.")
-except Exception as e:  # noqa: BLE001 - job context is unavailable outside Databricks
-    print(f"Context unavailable: {e}")
+# MAGIC %md
+# MAGIC ## Companion and deployed sample
+# MAGIC
+# MAGIC This companion notebook is for reading the lesson and recording the exercise.
+# MAGIC The bundle's real `sample_job` runs `src/sample_notebook.py`; that notebook
+# MAGIC prints `job_run_id` and `task_run_id` widgets passed as `{{job.run_id}}` and
+# MAGIC `{{task.run_id}}`. Inspect its task output for the actual IDs. This companion
+# MAGIC does not infer IDs through the notebook JVM context.
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — task work: quick aggregate
@@ -59,13 +55,15 @@ df.agg({"value": "avg"}).show()
 # MAGIC databricks bundle deploy --target dev
 # MAGIC databricks bundle run sample_job --target dev
 # MAGIC ```
-# MAGIC Observe: job-level parameters (`catalog`, `schema`), the task retry
-# MAGIC policy, and the dev-prefixed job name. Production is a separate deployment
+# MAGIC Observe: job-level parameters (`catalog`, `schema`), the job/task run IDs in
+# MAGIC the deployed sample notebook output, and the dev-prefixed job name. The YAML
+# MAGIC has no explicit retry policy; choose one for your design exercise. Production is a separate deployment
 # MAGIC mode with a stable root path and active schedule; describe that difference
 # MAGIC in LESSON.md. The course bundle declares only the dev target.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC
-# MAGIC Add a markdown cell with: deployed job URL, successful run ID, the DAG
+# MAGIC Add a markdown cell with: deployed job URL, successful run ID and the job/task
+# MAGIC run IDs from the deployed sample notebook task output, the DAG
 # MAGIC design paragraph (ingest → train → evaluate: task types, dependencies,
-# MAGIC retries), and what the dev configuration changes compared with a hypothetical production deployment.
+# MAGIC chosen retry policy), and what the dev configuration changes compared with a hypothetical production deployment.

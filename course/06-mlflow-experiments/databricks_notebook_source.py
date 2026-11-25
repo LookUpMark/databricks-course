@@ -44,7 +44,7 @@ for regularization in [0.1, 1.0, 10.0]:
         mlflow.log_metric("cv_auc", auc)
 
 # COMMAND ----------
-# DBTITLE 1,Exercise 3 — artifact in the best run
+# DBTITLE 1,Exercise 3 — find the best run and log its report
 # COMMAND ----------
 best = mlflow.search_runs(
     experiment_ids=[experiment.experiment_id],
@@ -59,7 +59,7 @@ with mlflow.start_run(run_id=best.run_id):
 
 # COMMAND ----------
 # MAGIC %md
-# MAGIC ## Exercise 5 (optional) — register to Unity Catalog
+# MAGIC ## Exercise 4 (optional) — register to Unity Catalog
 # MAGIC
 # MAGIC ```python
 # MAGIC model_uri = f"runs:/{best.run_id}/model"

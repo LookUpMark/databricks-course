@@ -1,6 +1,6 @@
 # Assignment 12 — Agent Bricks
 
-Scaffold, run, and deploy a managed agent.
+Scaffold and run a managed agent; deployment is optional.
 
 ## Materials
 

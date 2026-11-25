@@ -20,6 +20,9 @@ resources:
         - task_key: notebook_task
           notebook_task:
             notebook_path: ../src/sample_notebook.py
+            base_parameters:
+              job_run_id: "{{job.run_id}}"
+              task_run_id: "{{task.run_id}}"
 
         - task_key: python_wheel_task
           depends_on:

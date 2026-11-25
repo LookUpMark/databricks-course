@@ -33,11 +33,12 @@ main = "playbook.main:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/e2e"]
+
 [tool.ruff]
 line-length = 120
+# Databricks injects these names into notebooks and pipeline sources.
+builtins = ["spark", "dbutils", "display"]
 # Exclude local exploratory notebooks from Ruff.
 extend-exclude = ["*.ipynb", "**/explorations"]
-
-[tool.ruff.lint]
-# Databricks injects spark, dbutils and display into notebook and pipeline sources.
-ignore = ["F821"]

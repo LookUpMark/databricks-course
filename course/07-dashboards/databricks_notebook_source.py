@@ -27,8 +27,7 @@ if not identifier.fullmatch(catalog) or not identifier.fullmatch(schema):
 # DBTITLE 1,Exercise 1 — curated view with revenue semantics
 # COMMAND ----------
 # Business logic lives in the view so every dashboard dataset agrees on it.
-scratch = f"{catalog}.{schema}"
-spark.sql(f"CREATE SCHEMA IF NOT EXISTS {scratch}")
+scratch = f"`{catalog}`.`{schema}`"
 
 spark.sql(f"""
 CREATE OR REPLACE VIEW {scratch}.v_orders_revenue AS
@@ -67,7 +66,7 @@ spark.sql(f"SELECT sum(revenue) AS total_revenue FROM {scratch}.v_orders_revenue
 # MAGIC 2. Add the 3 datasets above, each backed by a query against
 # MAGIC    `{catalog}.{schema}.v_orders_revenue`.
 # MAGIC 3. Widgets: line chart (daily_revenue), bar chart (by status), counter (KPI).
-# MAGIC 4. Publish, copy the share URL, set viewer permissions on the schema.
+# MAGIC 4. Choose the publication mode in LESSON.md, publish, and share with the intended viewers.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC

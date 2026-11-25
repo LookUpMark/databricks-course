@@ -10,8 +10,4 @@ def sample_zones_playbook():
     Returns:
         DataFrame: Total fare per pickup ZIP.
     """
-    return (
-        spark.read.table("sample_trips_playbook")
-        .groupBy("pickup_zip")
-        .agg(F.sum("fare_amount").alias("total_fare"))
-    )
+    return spark.read.table("sample_trips_playbook").groupBy("pickup_zip").agg(F.sum("fare_amount").alias("total_fare"))

@@ -6,7 +6,7 @@ Values identifying the project and its default deployment context.
 |---|---|---|
 | `project_name` | `GeneralSettings.project_name` | Logical name for resources and log prefixes |
 | `catalog` | `GeneralSettings.catalog` | Default Unity Catalog catalog |
-| `schema` | `GeneralSettings.schema` | Default schema inside `catalog` |
+| `schema` | `GeneralSettings.schema_name` (also available as `.schema`) | Default schema inside `catalog` |
 | `log_level` | `GeneralSettings.log_level` | Level for `utils.logging.configure_logging` |
 
 Only `log_level` has a default (`INFO`); the other three are required. Edit

@@ -33,7 +33,9 @@ SELECT * FROM VALUES
   (3, 'synthetic_user_c', 0.88)
 AS t(user_id, segment, engagement_score)
 """)
-spark.sql(f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example source for an optional Lakebase snapshot exercise.'")
+spark.sql(
+    f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example source for an optional Lakebase snapshot exercise.'"
+)
 spark.sql(f"SELECT * FROM {src}.lakebase_source ORDER BY user_id").show(truncate=False)
 
 # COMMAND ----------

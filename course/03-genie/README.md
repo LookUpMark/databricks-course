@@ -1,4 +1,4 @@
-# Assignment 03 — AI/BI Genie Spaces
+# Assignment 03 — Genie Agents
 
 Prepare trusted data context and evaluate Genie-generated SQL.
 
@@ -13,5 +13,5 @@ Prepare trusted data context and evaluate Genie-generated SQL.
 Follow the lesson, complete the notebook exercises, and submit the requested evidence:
 
 - The notebook with comments applied and a summary markdown cell listing:
-  space name, the 3 questions asked, whether Genie's SQL was correct, and one
+  agent name, the 3 questions asked, whether Genie's SQL was correct, and one
   instruction you added after seeing a wrong answer.

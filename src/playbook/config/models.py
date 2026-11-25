@@ -4,7 +4,7 @@ One model per configuration domain; ``Settings`` aggregates them all.
 Every model validates its YAML source, so loading fails fast on bad config.
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class GeneralSettings(BaseModel):
@@ -13,14 +13,21 @@ class GeneralSettings(BaseModel):
     Attributes:
         project_name: Logical name used in resource names and log prefixes.
         catalog: Default Unity Catalog catalog.
-        schema: Default schema inside ``catalog``.
+        schema_name: Default schema inside the configured catalog.
         log_level: Level for the centralized loguru configuration.
     """
 
+    model_config = ConfigDict(serialize_by_alias=True)
+
     project_name: str
     catalog: str
-    schema: str
+    schema_name: str = Field(alias="schema")
     log_level: str = Field(default="INFO")
+
+    @property
+    def schema(self) -> str:
+        """Return the schema under its existing Python attribute name."""
+        return self.schema_name
 
 
 class MlSettings(BaseModel):

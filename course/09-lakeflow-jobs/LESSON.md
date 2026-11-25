@@ -4,7 +4,7 @@
 Review `resources/sample_job.job.yml` and ensure the Databricks CLI is authenticated to the intended workspace. The exercise deploys to `dev`; do not deploy to production as part of this walkthrough.
 
 ## Walkthrough
-1. In the YAML, identify the `notebook_task`, `python_wheel_task`, and `refresh_pipeline` task types, parameters, compute configuration, dependencies, and retry policy. Note the job key `sample_job`.
+1. In the YAML, identify the `notebook_task`, `python_wheel_task`, and `refresh_pipeline` task types, parameters, compute configuration, and dependencies. The sample job YAML has no explicit retry policy; note this separately from the retry policy you choose for your design exercise. Note the job key `sample_job`.
 2. From the bundle repository root, select the named CLI profile and provide the catalog and your pre-created writable schema:
    ```bash
    export DATABRICKS_CONFIG_PROFILE=course
@@ -19,7 +19,7 @@ Review `resources/sample_job.job.yml` and ensure the Databricks CLI is authentic
    databricks bundle run sample_job --target dev
    ```
    Wait for the command to return a run URL or ID.
-4. Open the run URL in the workspace UI. Inspect task status, dependency graph, compute, parameters, logs, and output. Confirm the run succeeded.
+4. Open the run URL in the workspace UI. Inspect task status, dependency graph, compute, parameters, logs, and output. Confirm the run succeeded. In the `notebook_task` output, record the `Job run ID` and `Task run ID` printed by the sample notebook; these are passed using supported dynamic value references.
 5. In the Jobs UI, open the deployed job and compare its `[dev ...]` name with the resource definition. Do not deploy `prod` for this exercise.
 6. Design a separate three-task ingest → train → evaluate DAG in a Markdown cell. Specify task types, dependencies, and a sensible retry policy; also state what the `dev` target changed.
 
@@ -37,10 +37,10 @@ targets:
 ```
 
 ## Check your work
-The dev job exists and its run completed successfully; the UI run details match the task graph and parameters in the bundle.
+The dev job exists and its run completed successfully; the UI run details match the task graph and parameters in the bundle, and the notebook task output shows its job and task run IDs.
 
 ## Deliverable
-Record the dev job URL, successful run ID, DAG design, and what the dev target changed in the deployed resource.
+Record the dev job URL, successful run ID from the job run, job and task run IDs from the notebook task output, DAG design, and what the dev target changed in the deployed resource.
 
 ## Worked solution
 See [solution.py](solution.py) for a complete example with an example deliverable. Replace synthetic links and execution-specific values with evidence from your workspace.

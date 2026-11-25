@@ -1,10 +1,10 @@
 # Assignment 05 — Mosaic AI Agent Framework
 
 ## Before you start
-Open the notebook on supported Databricks compute. Run the dependency setup cell and allow the Python restart to finish before continuing. Confirm an approved chat model endpoint is available to your workspace, then enter its name in the `chat_endpoint` widget.
+Open the notebook on supported Databricks compute. Run the dependency setup cell and allow the Python restart to finish before continuing. Use the same catalog and schema as [topic 03](../03-genie/LESSON.md). Choose an approved chat model endpoint that supports tool calling, then enter its name in the `chat_endpoint` widget. The notebook pins the LangChain stack to a [compatible version set](https://docs.databricks.com/aws/en/agents/custom-agents/create-custom-tool).
 
 ## Walkthrough
-1. Run the tool cell and inspect the function and its input/output schema. The example tool should perform a small deterministic action, by counting the synthetic `orders` rows.
+1. Run the tool cell and inspect the function and its input/output schema. The example tool counts the synthetic `orders` rows.
 2. Run the agent construction cell. Check how the tool is registered and how the model endpoint is selected. If the endpoint is unavailable, use an endpoint approved for your workspace and avoid embedding credentials in code.
 3. Run the logging cell to invoke the agent on the example question and log it to MLflow with tracing enabled. Confirm the responses use the tool where appropriate.
 4. Use the printed experiment path and run ID to open the run. In the run page, inspect the trace and verify that the model call and tool call are represented.

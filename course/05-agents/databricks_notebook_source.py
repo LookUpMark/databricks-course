@@ -11,7 +11,7 @@
 # COMMAND ----------
 # DBTITLE 1,Install agent dependencies (serverless/classic)
 # COMMAND ----------
-# MAGIC %pip install -q -U langchain databricks-langchain "mlflow[databricks]"
+# MAGIC %pip install -q "langchain==1.2.10" "langgraph==1.0.10" "langgraph-prebuilt==1.0.8" "databricks-langchain==0.22.0" "mlflow[databricks]==3.18.0"
 # COMMAND ----------
 
 dbutils.library.restartPython()
@@ -24,7 +24,7 @@ dbutils.widgets.text("schema", defaultValue="")
 dbutils.widgets.text("chat_endpoint", defaultValue="")
 endpoint = dbutils.widgets.get("chat_endpoint").strip()
 if not endpoint:
-    raise ValueError("Enter a workspace-approved chat model serving endpoint.")
+    raise ValueError("Enter a workspace-approved chat model serving endpoint that supports tool calling.")
 catalog = dbutils.widgets.get("catalog").strip()
 schema = dbutils.widgets.get("schema").strip()
 identifier = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")

@@ -1,6 +1,6 @@
 # Databricks Course
 
-A hands-on course for engineers learning Databricks. The 14 labs start with notebooks and Unity Catalog, then cover analytics, MLflow, jobs, pipelines, agents, and apps. The repository also contains a working Declarative Automation Bundle (DAB) based on the Databricks `default-python` template.
+A hands-on course for engineers learning Databricks. The 14 labs start with notebooks and Unity Catalog, then cover analytics, MLflow, jobs, pipelines, agents, and apps. The repository also contains a Declarative Automation Bundle (DAB) for the job and pipeline labs based on the Databricks `default-python` template.
 
 **Start with the [course index](course/README.md)**. It lists the labs in order, the features each one uses, and the exercises that depend on earlier work.
 
@@ -25,7 +25,7 @@ Use a workspace approved for learning. A [Databricks Free Edition workspace](htt
 
 Topic [02 — Unity Catalog](course/02-unity-catalog/LESSON.md) explains how to find a writable catalog and set up a **personal lab schema**. In a shared workspace give it a unique simple name, such as `course_yourname`, and use the same catalog and schema in subsequent lab widgets and bundle variables. The example names use letters, numbers, and underscores, starting with a letter or underscore. If you cannot create a schema, ask the workspace owner for a dedicated existing one. Check that you can create the tables, views, or volumes called for by each lesson.
 
-Keep the topic 02 volume through topic 10 and the topic 03 `orders` table through topics 05, 07, and 13. The topic 03 Genie space is used by topic 04. Topic [08](course/08-etl-pipelines/LESSON.md) builds its own Medallion tables in the lab schema. Topic 09 uses the workspace's read-only `samples.nyctaxi.trips` data in addition to the lab schema. Check [the index](course/README.md) before deleting shared course objects.
+Keep the topic 02 volume through topic 10 and the topic 03 `orders` table through topics 05, 07, and 13. Topic 04 calls the Genie Agent you create in topic 03. Topic [08](course/08-etl-pipelines/LESSON.md) builds its own Medallion tables in the lab schema. Topic 09 uses the workspace's read-only `samples.nyctaxi.trips` data in addition to the lab schema. Check [the index](course/README.md) before deleting shared course objects.
 
 ## Run the bundle
 
@@ -52,9 +52,9 @@ databricks bundle run sample_job --target dev
 
 - **Authentication** uses the named CLI profile on your machine. `auth describe` lets you check the host with credentials masked. If you see a different workspace, inspect your active profile and any Databricks auth environment overrides before deploying.
 - **Validate** checks bundle configuration and resolves resource references. To preview the uploaded files, use `databricks bundle sync --target dev --dry-run`.
-- **Deploy** builds the `playbook` wheel with `uv`, uploads the job notebook and pipeline sources, and creates a personal development copy of the job and pipeline. The workspace puts it under your user folder's `.bundle/databricks_course/dev` path by default. The development resource names have a `[dev …]` prefix and the periodic trigger is paused.
+- **Deploy** builds the `playbook` wheel with `uv`, uploads the job notebook and pipeline sources, and creates a personal development copy of the job and pipeline. The workspace puts it under your user folder's `.bundle/databricks_course/dev` path by default. The development resource names have a `[dev …]` prefix and the periodic trigger is paused. Use one checkout per workspace identity for this lab. Two checkouts deployed by the same user to the same target share the default deployment path.
 - **Run** starts `sample_job` manually. Open the run URL in **Jobs & Pipelines** and open the task graph. After the notebook checks the schema and previews five rows, the wheel previews NYC taxi trips and the pipeline refreshes its two materialized views in parallel. [Topic 09](course/09-lakeflow-jobs/LESSON.md) explains each task, job parameter and check. [Topic 10](course/10-cli-mastery/LESSON.md) shows how to inspect the run from the terminal.
-- **Clean up** with `databricks bundle destroy --target dev` when you have finished both labs. Check the target and confirmation prompt first. Check your personal UC schema separately for course tables, views, and volumes, and delete only the assets you created and no longer need.
+- **Clean up** with `databricks bundle destroy --target dev` when you have finished both labs. Check the workspace, target, and confirmation prompt first. The command permanently deletes the job and pipeline from that deployment. Check your personal UC schema separately for course tables, views, and volumes, and delete only the assets you created and no longer need.
 
 If deployment fails, read the first error. Common checks are CLI version, the active profile, the two bundle variables, permission to write to the selected schema, serverless availability, and access to the sample taxi table. The [bundle walkthrough](docs/overview/pipelines.md) explains how each resource is wired.
 
@@ -84,7 +84,8 @@ From the root:
 ```bash
 uv sync --locked --dev
 uv run pytest tests/unit tests/e2e
-uv run ruff check src tasks tests
+uv run ruff check course src tasks tests
+uv run ruff format --check course src tasks tests
 uv build --wheel
 ```
 

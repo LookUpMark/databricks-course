@@ -27,7 +27,9 @@ scratch = f"`{catalog}`.`{schema}`"
 # DBTITLE 1,Exercise 1 — bronze: raw data as it lands
 # COMMAND ----------
 import json
-from pyspark.sql import Window, functions as F
+
+from pyspark.sql import Window
+from pyspark.sql import functions as F
 
 raw_records = [
     {"event_id": "e1", "id": "c1", "name": "  Alice ", "amount": "100.5", "ts": "2026-01-01T10:00:00"},
@@ -40,7 +42,9 @@ source = spark.createDataFrame([(json.dumps(row),) for row in raw_records], "raw
 if not spark.catalog.tableExists(bronze_path):
     spark.createDataFrame([], "raw STRING").write.format("delta").saveAsTable(bronze_path)
 bronze_version = spark.sql(f"DESCRIBE HISTORY {bronze_path}").collect()[0]["version"]
-incoming = source.select(F.from_json("raw", "event_id STRING, id STRING, name STRING, amount STRING, ts STRING").alias("j")).select("j.*")
+incoming = source.select(
+    F.from_json("raw", "event_id STRING, id STRING, name STRING, amount STRING, ts STRING").alias("j")
+).select("j.*")
 incoming.createOrReplaceTempView("incoming_events")
 spark.sql(f"""
 MERGE INTO {bronze_path} AS target
@@ -64,7 +68,9 @@ silver = (
     .filter(F.col("id").isNotNull() & F.col("amount").isNotNull())
     .withColumn("name", F.trim("name"))
     .filter(F.col("ts").isNotNull())
-    .withColumn("rank", F.row_number().over(Window.partitionBy("id").orderBy(F.col("ts").desc(), F.col("event_id").desc())))
+    .withColumn(
+        "rank", F.row_number().over(Window.partitionBy("id").orderBy(F.col("ts").desc(), F.col("event_id").desc()))
+    )
     .filter(F.col("rank") == 1)
     .drop("rank")
 )

@@ -1,6 +1,6 @@
 # Assignment 04 — Genie as an Agent Tool
 
-Call a Genie space from code and sketch its use as an agent tool.
+Call a Genie Agent from code and sketch its use as an agent tool. The compatible Chat mode API continues to use `/spaces/{space_id}` paths.
 
 ## Materials
 

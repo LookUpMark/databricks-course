@@ -21,7 +21,9 @@ import re
 
 _IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 if not _IDENTIFIER.fullmatch(catalog) or not _IDENTIFIER.fullmatch(schema):
-    raise ValueError("Set catalog and schema widgets to simple Unity Catalog identifiers before inspecting topic 03 data.")
+    raise ValueError(
+        "Set catalog and schema widgets to simple Unity Catalog identifiers before inspecting topic 03 data."
+    )
 
 # COMMAND ----------
 # MAGIC %md
