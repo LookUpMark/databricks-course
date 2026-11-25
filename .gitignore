@@ -1,0 +1,54 @@
+# Adapted from the Databricks default-python template. See THIRD_PARTY_NOTICES.md.
+
+# Databricks state and local credentials
+.databricks/
+.bundle/
+.databrickscfg
+.agentbricks/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python environments, caches, builds, and test output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Local tools, editors, and operating system files
+.agents/
+.claude/
+.codex/
+.pi/
+.aws/
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Personal notebooks, temporary data, and course submissions
+/scratch/*
+!/scratch/README.md
+**/explorations/*
+!**/explorations/README.md
+/deliverables/
+**/deliverables/
+*.duckdb
+*.sqlite
+*.sqlite3

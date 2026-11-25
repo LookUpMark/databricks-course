@@ -1,0 +1,32 @@
+# Adapted from the Databricks default-python template. See THIRD_PARTY_NOTICES.md.
+bundle:
+  name: databricks_course
+  uuid: 007a8704-3146-451e-9c49-54d8087a32fa
+  databricks_cli_version: ">= 1.21.0"
+
+include:
+  - resources/*.yml
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+sync:
+  paths:
+    - course/
+    - src/
+  exclude:
+    - "**/*.md"
+    - src/playbook/**
+
+variables:
+  catalog:
+    description: Writable Unity Catalog catalog for the course
+  schema:
+    description: Dedicated, existing Unity Catalog schema for this learner
+
+targets:
+  dev:
+    mode: development
+    default: true

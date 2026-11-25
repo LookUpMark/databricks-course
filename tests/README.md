@@ -1,0 +1,14 @@
+# Tests
+
+These optional developer checks cover the demonstration [Python package](../src/playbook/README.md). The course notebooks run in Databricks.
+
+From the repository root, install the locked developer dependencies and run the offline suite:
+
+```bash
+uv sync --locked --dev
+uv run pytest tests/unit tests/e2e
+```
+
+- `unit/` exercises package configuration, argument parsing and context without networking.
+- `e2e/` checks the entry-point chain with a stand-in for Spark.
+- `integration/` connects to a live Databricks workspace. Configure a Databricks profile and compute compatible with the Databricks Connect version in [pyproject.toml](../pyproject.toml), and ensure access to `samples.nyctaxi.trips`. Run `uv run pytest tests/integration` only when you intend to use that compute. See [Databricks Connect](https://docs.databricks.com/aws/en/dev-tools/databricks-connect/python/).

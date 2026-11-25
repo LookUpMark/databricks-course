@@ -1,0 +1,12 @@
+# Adapted from the Databricks default-python template. See THIRD_PARTY_NOTICES.md.
+resources:
+  pipelines:
+    playbook_etl:
+      name: playbook_etl
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      root_path: ../src/playbook_etl
+      libraries:
+        - glob:
+            include: ../src/playbook_etl/transformations/**

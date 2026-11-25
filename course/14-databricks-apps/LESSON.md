@@ -1,0 +1,19 @@
+# Assignment 14 — Databricks Apps
+
+Worked example: [solution notebook](solution.py).
+
+## Before you start
+Run the notebook's read-only app inventory using the Databricks SDK's configured notebook authentication, or use the workspace UI fallback. The exercise is observational; do not deploy, start, stop, or delete apps.
+
+## Walkthrough
+1. Inspect the app list. Record names and lifecycle states; a URL may be omitted or unavailable. An empty list is a valid observation and may also reflect permissions.
+2. In the workspace navigation, open **Apps**. For an app you can access, open its details and record the URL and state shown there.
+3. Open the app's **Permissions** panel if available. Record the visible users/groups and what access is displayed; this observation is limited to your permissions and does not prove universal access. Do not change sharing.
+4. The sample `apps:` YAML in the solution is illustrative only. It does not assert an app exists or is deployed. If working from the course repo, `databricks bundle summary --target dev` is read-only; do not deploy for this assignment.
+5. Add a Markdown cell with actual observed URL(s), state, and permission notes, or explicitly state no app was visible. Select which pattern best fits a hypothetical project: operations on Lakebase, an Agent Bricks agent, or analytics over Unity Catalog.
+
+## Check your work
+The SDK or UI inventory is recorded, and absence/inaccessibility is clearly documented. No deployment or permission change is needed.
+
+## Deliverable
+Record app URL(s) and who can use them, then explain which app pattern best fits this project and why.

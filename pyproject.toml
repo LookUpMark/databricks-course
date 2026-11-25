@@ -1,0 +1,43 @@
+# Adapted from the Databricks default-python template. See THIRD_PARTY_NOTICES.md.
+[project]
+name = "playbook"
+version = "0.0.1"
+description = "Example Python wheel for the Databricks Course bundle"
+authors = [{ name = "Marco Lopez" }]
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "licenses/Databricks.txt"]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "loguru",
+    # Any dependencies for jobs and pipelines in this project can be added here
+    # See also https://docs.databricks.com/dev-tools/bundles/library-dependencies
+    #
+    # LIMITATION: for pipelines, dependencies are cached during development;
+    # add dependencies to the 'environment' section of your pipeline.yml file instead
+    "pydantic>=2.14.4",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+    "databricks-dlt",
+    "databricks-connect>=16.4,<16.5",
+    "ipykernel",
+]
+
+[project.scripts]
+main = "playbook.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+# Exclude local exploratory notebooks from Ruff.
+extend-exclude = ["*.ipynb", "**/explorations"]
+
+[tool.ruff.lint]
+# Databricks injects spark, dbutils and display into notebook and pipeline sources.
+ignore = ["F821"]
