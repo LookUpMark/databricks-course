@@ -1,5 +1,5 @@
 # Databricks notebook source
-# Assignment 05 - Agents (Mosaic AI Agent Framework).
+# Assignment 05 — Custom agents with LangChain and MLflow.
 # Builds a minimal tool-calling agent with LangGraph + traces, and logs it to MLflow.
 
 # COMMAND ----------
@@ -93,12 +93,10 @@ print("Open the experiment from Machine Learning → Experiments and inspect the
 
 # COMMAND ----------
 # MAGIC %md
-# MAGIC ## Exercise 4 — registration & evaluation (documented)
+# MAGIC ## Exercise 4 — deployment and evaluation design
 # MAGIC
-# MAGIC - This example creates a traced MLflow run; it does not log a model artifact,
-# MAGIC   so `runs:/{run_id}/model` is not available from this notebook as written.
-# MAGIC - To serve it, implement and log the documented ChatAgent interface, validate
-# MAGIC   its model signature/dependencies, then register the resulting logged URI.
+# MAGIC - This example logs a run and agent traces. Use them to verify the model's call to the SQL tool.
+# MAGIC - For a new deployment, use the Agent Bricks CLI and Agent Runtime described in topic 12.
 # MAGIC - Evaluate a packaged agent on a golden set using supported MLflow evaluation
 # MAGIC   APIs and workspace judges; exact options depend on the installed runtime.
 # MAGIC
@@ -117,4 +115,4 @@ print("Open the experiment from Machine Learning → Experiments and inspect the
 # MAGIC Example tool-grounded question: “How many rows are in `<catalog>.<schema>.orders`?” For the five synthetic orders in topic 03, the expected count is 5. Confirm the SQL tool span before attributing that output to the tool.
 # MAGIC Production plan: allow-list tables and columns, use a read-only SQL identity, enforce query timeouts, instruct the model to cite tool results, and evaluate exact count correctness, permission-denial behavior, and prompt-injection resistance on a fixed golden set.
 # MAGIC
-# MAGIC MLflow LangChain autologging can capture LangChain/LangGraph calls and traces when supported by the installed MLflow integration. That is tracing coverage; it does not automatically package a serving-ready Databricks `ChatAgent` interface. For serving, implement and log the documented `mlflow.pyfunc.ChatAgent` contract (including `predict` and, when required, `predict_stream`) and verify the model signature/dependencies in your workspace runtime.
+# MAGIC For a production deployment, adapt the agent using the Agent Bricks CLI in topic 12. Keep the same tool and trace evaluation criteria.

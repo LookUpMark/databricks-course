@@ -19,8 +19,8 @@
 # MAGIC | Aspect | Detail |
 # MAGIC |---|---|
 # MAGIC | Configuration | A bundle may declare an `apps:` resource |
-# MAGIC | Compute | Managed serverless app compute; inspect current app details for state |
-# MAGIC | Access | Depends on app permissions and configured identity/credentials |
+# MAGIC | Compute | Managed serverless app compute; inspect `compute_status.state` and `app_status.state` |
+# MAGIC | Access | **Overview** shows app details; **Authorization** shows app identity; **Share** shows user/group access |
 # MAGIC | Observation | Read app metadata and permissions; this notebook makes no changes |
 # MAGIC
 # COMMAND ----------
@@ -46,14 +46,25 @@ client = WorkspaceClient()
 apps = list(client.apps.list())
 print(f"{len(apps)} app(s) visible to this identity")
 for app in apps:
-    print({"name": app.name, "state": getattr(app, "compute_status", None), "url": getattr(app, "url", None)})
+    compute_status = getattr(app, "compute_status", None)
+    app_status = getattr(app, "app_status", None)
+    print(
+        {
+            "name": getattr(app, "name", None),
+            "compute_state": getattr(compute_status, "state", None),
+            "app_state": getattr(app_status, "state", None),
+            "url": getattr(app, "url", None),
+        }
+    )
 
 
 # COMMAND ----------
 # MAGIC %md
 # MAGIC ## Deliverable
 # MAGIC
-# MAGIC In the UI, open each app you found: check permissions and copy the URL if shown.
+# MAGIC In the app switcher, open **Databricks Apps**. Open each app's **Overview** page for
+# MAGIC status/URL, **Authorization** for the app identity, and **Share** to inspect existing
+# MAGIC `CAN USE`/`CAN MANAGE` permissions. Do not change sharing.
 # MAGIC Then a markdown cell:
 # MAGIC
 # MAGIC 1. The URL(s) you found + who can use them.

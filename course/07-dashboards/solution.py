@@ -1,5 +1,5 @@
 # Databricks notebook source
-# Assignment 07 - AI/BI Dashboards (Lakeview).
+# Assignment 07 - AI/BI Dashboards.
 # Data-prep half of the assignment: builds the curated view a dashboard needs.
 # The dashboard itself is created in the workspace UI (see README).
 
@@ -62,11 +62,11 @@ spark.sql(f"SELECT sum(revenue) AS total_revenue FROM {scratch}.v_orders_revenue
 # MAGIC %md
 # MAGIC ## Exercise 2-5 — build the dashboard in the UI
 # MAGIC
-# MAGIC 1. Workspace → Dashboards → **Create** (AI/BI Dashboard).
-# MAGIC 2. Add the 3 datasets above, each backed by a query against
+# MAGIC 1. In the sidebar, select **New → Dashboard**.
+# MAGIC 2. Select **Data → Add SQL dataset** for each query against
 # MAGIC    `{catalog}.{schema}.v_orders_revenue`.
 # MAGIC 3. Widgets: line chart (daily_revenue), bar chart (by status), counter (KPI).
-# MAGIC 4. Choose the publication mode in LESSON.md, publish, and share with the intended viewers.
+# MAGIC 4. Choose the publication mode in LESSON.md, publish, and share with the intended viewers. With **Individual data permissions**, data access uses each viewer's permissions. Compute access uses the publisher's credentials.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC

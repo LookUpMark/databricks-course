@@ -57,9 +57,9 @@ ORDER BY month
 # MAGIC %md
 # MAGIC ## UI walkthrough and example review
 # MAGIC
-# MAGIC In the workspace sidebar click **Genie Agents > New**. Select this
-# MAGIC catalog and schema and add `orders`. Add two instructions: revenue includes only paid orders, and report currency in EUR. Add a
-# MAGIC trusted query using the SQL above. Save, ask three questions, inspect each
+# MAGIC In the workspace sidebar, select **Genie Agents → New**, choose the `orders` table, and select **Create**.
+# MAGIC Review any suggestions from Genie Code. Under **Configure**, add two instructions: count only paid orders
+# MAGIC as revenue and report currency in EUR. Save the SQL above in **Examples**, ask three questions, and inspect each
 # MAGIC generated SQL, and give feedback on the weakest response.
 # MAGIC
 # MAGIC **Synthetic example deliverable:** agent name `course-synthetic-orders`;

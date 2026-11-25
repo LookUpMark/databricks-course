@@ -13,7 +13,7 @@ PACKAGED_DIR = Path(__file__).resolve().parents[4] / "src" / "playbook" / "confi
 def test_load_settings_from_packaged_files():
     settings = load_settings(PACKAGED_DIR)
     assert settings.general.project_name == "playbook"
-    assert settings.ml.chat_endpoint
+    assert settings.ml.chat_endpoint == ""
     assert settings.etl.bronze_table == "bronze_events"
 
 

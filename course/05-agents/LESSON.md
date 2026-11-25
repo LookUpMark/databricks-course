@@ -1,4 +1,4 @@
-# Assignment 05 — Mosaic AI Agent Framework
+# Assignment 05 — Custom agents with LangChain and MLflow
 
 ## Before you start
 Open the notebook on supported Databricks compute. Run the dependency setup cell and allow the Python restart to finish before continuing. Use the same catalog and schema as [topic 03](../03-genie/LESSON.md). Choose an approved chat model endpoint that supports tool calling, then enter its name in the `chat_endpoint` widget. The notebook pins the LangChain stack to a [compatible version set](https://docs.databricks.com/aws/en/agents/custom-agents/create-custom-tool).
@@ -21,4 +21,4 @@ Record the MLflow run link/model URI, one tool-grounded answer, and a short plan
 See [solution.py](solution.py) for a complete example with an example deliverable. Replace synthetic links and execution-specific values with evidence from your workspace.
 
 ## Access, expected result, and cleanup
-Use a supported Databricks notebook runtime with the required agent packages and an enabled chat model serving endpoint. The identity needs permission to query the `orders` table, use the model endpoint, and create an MLflow experiment under its own `/Users/<current-user>/` folder. Run cells top to bottom; expect a tool-grounded row count and an MLflow run. In **Machine Learning → Experiments**, open the experiment and run, then inspect trace spans for model and tool calls. Remove only your experiment after retaining evidence. LangChain autologging traces supported calls; it does not itself guarantee a serving-compatible `ChatAgent` model.
+Use a supported Databricks notebook runtime with the required agent packages and an enabled chat model serving endpoint. The identity needs `USE CATALOG`, `USE SCHEMA` and `SELECT` for `orders`, `CAN QUERY` on the model endpoint, and permission to create an MLflow experiment under its own `/Users/<current-user>/` folder. Run cells top to bottom; expect a tool-grounded row count and an MLflow run. In **Machine Learning → Experiments**, open the experiment and run, then inspect trace spans for model and tool calls. Remove only your experiment after retaining evidence. LangChain autologging captures traces in this lab. For a new deployment, use the [Agent Bricks CLI and Agent Runtime](../12-agent-bricks/LESSON.md).

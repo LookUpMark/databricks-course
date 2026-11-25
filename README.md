@@ -29,7 +29,7 @@ Keep the topic 02 volume through topic 10 and the topic 03 `orders` table throug
 
 ## Run the bundle
 
-Install the [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/install) and run these commands in your **local terminal**, from the cloned repository. Replace the example workspace URL, catalog, and schema with your own values. The schema must already exist before you deploy the bundle.
+Install the [current Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/install) (the bundle requires 1.21.0 or newer) and run these commands in your **local terminal**, from the cloned repository. Replace the example workspace URL, catalog, and schema with your own values. The schema must already exist before you deploy the bundle.
 
 ```bash
 git clone https://github.com/LookUpMark/databricks-course.git

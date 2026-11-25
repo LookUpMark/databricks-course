@@ -15,7 +15,7 @@ Run these commands in a terminal on your machine, not in a notebook `%sh` cell, 
 7. Add a Markdown cell naming a CI/CD command and explaining why.
 
 ## Check your work
-Workspace export and volume listing succeed, and the script prints one latest-state summary or a clear missing/ambiguous result without exposing credentials. The current root bundle uses the profile and `BUNDLE_VAR_*` variables above; confirm values from the checked-in `databricks.yml` before running a deploy.
+Workspace export and volume listing succeed, and the script prints the latest-started-run state summary or a clear missing/ambiguous result without exposing credentials. The current root bundle uses the profile and `BUNDLE_VAR_*` variables above; confirm values from the checked-in `databricks.yml` before running a deploy.
 
 ## Deliverable
 Save the shell script in an ignored local `deliverables/` directory, and add the CI/CD command explanation to the notebook.

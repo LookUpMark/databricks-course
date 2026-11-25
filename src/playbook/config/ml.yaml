@@ -6,8 +6,8 @@
 experiment_root: ml-playbook
 agent_experiment: ml-playbook-agents
 
-# Model serving endpoint used by agent notebooks.
-chat_endpoint: databricks-claude-3-7-sonnet
+# Set this to a workspace-approved endpoint if package code needs model serving.
+chat_endpoint: ""
 
 # Unity Catalog schema holding registered models.
 registry_schema: ml

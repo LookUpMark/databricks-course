@@ -28,7 +28,7 @@
 # MAGIC
 # MAGIC Save as `latest-job-state.sh`, pass the exact displayed job name as the first argument, and run
 # MAGIC from an authenticated terminal with `jq` installed. It handles array and object responses,
-# MAGIC zero or multiple exact matches, an empty run list, and missing state fields.
+# MAGIC zero or multiple exact matches, an empty run list, and missing state fields. It selects the run with the most recent start time.
 # MAGIC
 # MAGIC ```bash
 # MAGIC #!/usr/bin/env bash

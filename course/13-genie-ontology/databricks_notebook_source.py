@@ -6,7 +6,7 @@
 # MAGIC %md
 # MAGIC # Assignment 13 — Genie Ontology
 # MAGIC
-# MAGIC **Goal**: inspect data metadata and context that can inform Genie One.
+# MAGIC **Goal**: inspect data metadata and the shared Genie Ontology used by Genie One and Genie Code.
 # MAGIC
 # MAGIC The synthetic data and comments below are examples only; they do not establish that
 # MAGIC Genie will use them or that the table is certified or production quality.
@@ -31,11 +31,13 @@ if not _IDENTIFIER.fullmatch(catalog) or not _IDENTIFIER.fullmatch(schema):
 # MAGIC
 # MAGIC | Layer | Source | Authority |
 # MAGIC |---|---|---|
-# MAGIC | **Genie One** | Simplified interface for business users to interact with data assets | Inspect documented UI behavior |
-# MAGIC | **Genie Code** | Coding and data assistant for technical practitioners | Inspect generated code before running |
+# MAGIC | **Genie One** | Simplified interface for business users to interact with data assets | Searches the shared Genie Ontology |
+# MAGIC | **Genie Code** | Coding and data assistant for technical practitioners | Searches the shared Genie Ontology; inspect generated code before running |
 # MAGIC
-# MAGIC Observe Genie One responses and Genie Code separately. Do not infer that they expose
-# MAGIC the same context or that every workspace has the same UI features.
+# MAGIC The ontology combines modeled knowledge (governed context you define through Unity Catalog
+# MAGIC semantics) and learned knowledge (snippets extracted from assets and usage). Observe each
+# MAGIC response separately: context surfaced can vary by product surface, feature, permissions,
+# MAGIC and workspace configuration, even though both search the same ontology.
 # MAGIC
 # COMMAND ----------
 # DBTITLE 1,Inspect the topic 03 table and its comments
@@ -53,7 +55,9 @@ spark.sql(f"DESCRIBE TABLE EXTENDED {src}.orders").show(80, truncate=False)
 # MAGIC 1. Catalog → your personal schema (from the widgets) → inspect `orders`; do not certify synthetic data.
 # MAGIC 2. Review the data access and visible context controls; record any limitation.
 # MAGIC 3. Ask Genie One a question (e.g. "monthly revenue") and inspect any available SQL or citations.
-# MAGIC 4. Optionally inspect Genie Code separately as an authoring assistant. Do not conflate it with Genie One.
+# MAGIC 4. Inspect Genie Code separately as an authoring assistant. Genie One and Genie Code search
+# MAGIC    the same ontology, but the context shown/used can vary by surface, feature, permissions,
+# MAGIC    and workspace configuration.
 # MAGIC
 # MAGIC Replace this cell's text with a summary: modeled assets, learned-only assets, one
 # MAGIC real or clearly hypothetical discrepancy, and why synthetic scratch data must not be certified.

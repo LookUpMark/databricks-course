@@ -10,7 +10,9 @@ Inspect deployed apps, their access, and project fit.
 
 ## Exercise and deliverable
 
-Follow the lesson, complete the notebook exercises, and submit the requested evidence:
+Follow the lesson, complete the notebook exercises, and submit the requested evidence. In
+Databricks Apps, inspect app **Overview** for URL/status, **Authorization** for the app identity,
+and **Share** for existing `CAN USE`/`CAN MANAGE` access; do not change permissions:
 
 - Executed notebook or UI observations: app list (which may be empty).
 - One markdown cell: the app URL(s) you found + permissions notes.

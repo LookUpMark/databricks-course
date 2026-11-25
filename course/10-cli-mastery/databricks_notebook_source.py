@@ -22,8 +22,8 @@
 # MAGIC | `workspace list/export/export-dir` | notebooks in/out of the workspace |
 # MAGIC | `jobs list / bundle run` | trigger and inspect runs |
 # MAGIC | `fs ls` | DBFS and `/Volumes/...` paths |
-# MAGIC | `pipelines list` | DLT / Lakeflow pipelines |
-# MAGIC | `dashboards list/get` | Lakeview dashboards |
+# MAGIC | `pipelines list` | Lakeflow Spark Declarative Pipelines |
+# MAGIC | `lakeview list` / `lakeview get` | AI/BI Dashboards |
 # MAGIC | `auth describe` | debug authentication |
 # MAGIC
 # MAGIC Scripting tips: add `-o json`, inspect the JSON shape, check exit codes, and use
@@ -50,8 +50,8 @@
 # MAGIC ## Deliverable
 # MAGIC
 # MAGIC Write `latest-job-state.sh`. The script should take the exact display name as
-# MAGIC its argument, list jobs as JSON, find exactly one match, and display its latest
-# MAGIC run state. Handle the missing and ambiguous cases plus a job with no runs.
+# MAGIC its argument, list jobs as JSON, find exactly one match, and display the state of its latest-started
+# MAGIC run. Handle the missing and ambiguous cases plus a job with no runs.
 # MAGIC
 # MAGIC Start with:
 # MAGIC

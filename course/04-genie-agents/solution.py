@@ -70,7 +70,7 @@ def ask_genie(question: str, space_id: str = SPACE_ID) -> str:
 
     Args:
         question: A natural-language analytics question.
-        space_id: Genie space identifier. Defaults to the notebook widget.
+        space_id: Genie Agent ID, called space_id by the Chat mode API. Defaults to the notebook widget.
 
     Returns:
         The answer and SQL attachments when available.

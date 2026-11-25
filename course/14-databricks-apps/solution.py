@@ -6,7 +6,7 @@
 # MAGIC # Assignment 14 — Worked solution
 # MAGIC
 # MAGIC Use the notebook's authenticated Databricks SDK client to list apps read-only. If SDK
-# MAGIC support is unavailable in the current runtime, use workspace navigation → **Apps** and
+# MAGIC support is unavailable in the current runtime, use the app switcher → **Databricks Apps** and
 # MAGIC record the visible results. An empty list can mean none are visible to this identity.
 # MAGIC The app configuration below is illustrative; this assignment does not deploy an app.
 
@@ -18,7 +18,16 @@ client = WorkspaceClient()
 apps = list(client.apps.list())
 print(f"{len(apps)} app(s) visible to this identity")
 for app in apps:
-    print({"name": app.name, "state": getattr(app, "compute_status", None), "url": app.url})
+    compute_status = getattr(app, "compute_status", None)
+    app_status = getattr(app, "app_status", None)
+    print(
+        {
+            "name": getattr(app, "name", None),
+            "compute_state": getattr(compute_status, "state", None),
+            "app_state": getattr(app_status, "state", None),
+            "url": getattr(app, "url", None),
+        }
+    )
 
 # COMMAND ----------
 # MAGIC %md
@@ -40,6 +49,9 @@ for app in apps:
 
 # COMMAND ----------
 # MAGIC %md
+# MAGIC In the UI, use **Overview** for URL/status, **Authorization** for app identity, and
+# MAGIC **Share** to inspect existing `CAN USE`/`CAN MANAGE` access. Do not change permissions.
+# MAGIC
 # MAGIC ## Example report (fill from live observation)
 # MAGIC
 # MAGIC ```text

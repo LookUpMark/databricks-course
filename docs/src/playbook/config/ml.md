@@ -6,8 +6,7 @@ MLflow tracking and model-serving configuration.
 |---|---|---|
 | `experiment_root` | `MlSettings.experiment_root` | Root path for experiments under the user workspace |
 | `agent_experiment` | `MlSettings.agent_experiment` | Experiment path for agent development |
-| `chat_endpoint` | `MlSettings.chat_endpoint` | Model serving endpoint used by agent notebooks |
+| `chat_endpoint` | `MlSettings.chat_endpoint` | Optional model serving endpoint for package extensions; empty until configured |
 | `registry_schema` | `MlSettings.registry_schema` | UC schema holding registered models |
 
-All four fields are required. The playbook notebooks (agents, mlflow-experiments)
-consume these values instead of hardcoding endpoints and paths.
+The YAML keys belong to the sample package configuration. The course notebooks choose their own experiment paths. Topic 05 takes a workspace-approved model endpoint from its `chat_endpoint` widget.

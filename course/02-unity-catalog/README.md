@@ -1,6 +1,6 @@
 # Assignment 02 — Unity Catalog
 
-Create and inspect governed schemas, managed tables, permissions, and volumes.
+Create and inspect governed schemas, managed tables, permissions, and volumes. The [lesson](LESSON.md#before-you-start) lists the table and volume privileges for setup and reruns.
 
 ## Materials
 

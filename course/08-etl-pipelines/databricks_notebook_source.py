@@ -110,8 +110,8 @@ spark.sql(f"SELECT * FROM {bronze_path} VERSION AS OF {bronze_version}").show(tr
 # MAGIC
 # MAGIC Replace the simulated append with `spark.readStream.format("cloudFiles")`,
 # MAGIC schema inference/evolution, and a **checkpoint location** per pipeline
-# MAGIC (e.g. `/Volumes/{catalog}/{schema}/course_files/checkpoints/bronze_events`).
-# MAGIC A checkpoint stores offsets and state for recovery; it does not by itself guarantee end-to-end exactly-once behavior. Keep a durable, unique checkpoint outside the driver local filesystem, for example a Unity Catalog volume path. Keep Auto Loader schema state under a separate durable schemaLocation such as `/Volumes/{catalog}/{schema}/course_files/schemas/bronze_events`. Create the `course_files` volume first and grant the pipeline identity the required volume permissions. Configure source and sink idempotently, and do not delete the checkpoint to "reset" a stream without understanding replay effects.
+# MAGIC (e.g. `/Volumes/{catalog}/{schema}/playbook_files/autoloader/checkpoints/bronze_events`). This is architecture design only; do not configure or run Auto Loader in this lab.
+# MAGIC A checkpoint stores offsets and state for recovery; it does not by itself guarantee end-to-end exactly-once behavior. Use the existing topic 02 `/Volumes/{catalog}/{schema}/playbook_files` Volume; the pipeline identity needs `READ VOLUME` and `WRITE VOLUME`. Keep `cloudFiles.schemaLocation` and `checkpointLocation` in separate durable paths unique to the stream, for example `/Volumes/{catalog}/{schema}/playbook_files/autoloader/schemas/bronze_events` and `/Volumes/{catalog}/{schema}/playbook_files/autoloader/checkpoints/bronze_events`. Configure source and sink idempotently, and do not delete the checkpoint to "reset" a stream without understanding replay effects.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC

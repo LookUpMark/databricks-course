@@ -20,7 +20,9 @@
 # MAGIC
 # MAGIC `agentbricks dev` is the local iteration step. Deploy provisions declared resources and
 # MAGIC returns a URL; only record that URL if the command actually succeeds. This sample makes
-# MAGIC no claim that an app was deployed. See the [official Agent Bricks CLI guide](https://docs.databricks.com/aws/en/agents/custom-agents/agent-bricks-cli).
+# MAGIC no claim that an app was deployed. The CLI is Beta; the named Databricks CLI profile
+# MAGIC authenticates the target workspace, with no separate workspace-switch step. Deployment
+# MAGIC remains optional and permission-dependent. See the [official Agent Bricks CLI guide](https://docs.databricks.com/aws/en/agents/custom-agents/agent-bricks-cli).
 
 # COMMAND ----------
 # MAGIC %md

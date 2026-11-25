@@ -76,7 +76,7 @@ try:
     ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
     print(f"Notebook path: {ctx.notebookPath().get()}")
 except Exception:  # noqa: BLE001 - notebook context varies by compute
-    print("Use Copy path from the notebook or its Workspace entry.")
+    print("In Workspace, right-click the notebook and choose Copy > Path.")
 
 # COMMAND ----------
 # MAGIC %md
@@ -85,5 +85,5 @@ except Exception:  # noqa: BLE001 - notebook context varies by compute
 # MAGIC Add a markdown cell below (use `# MAGIC %md`) with:
 # MAGIC
 # MAGIC 1. This notebook's full workspace path.
-# MAGIC 2. The classic compute's Databricks Runtime version or the serverless environment version shown in the UI.
+# MAGIC 2. The compute type and its version (Databricks Runtime for classic compute, environment version for serverless). Record Spark and Python versions separately.
 # MAGIC 3. One difference between interactive attach and job execution.

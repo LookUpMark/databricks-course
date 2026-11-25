@@ -34,25 +34,26 @@ if not _IDENTIFIER.fullmatch(catalog) or not _IDENTIFIER.fullmatch(schema):
 # MAGIC |---|---|
 # MAGIC | Project | Container for a Postgres database (created via UI / `databricks postgres create-project`) |
 # MAGIC | Branch | Isolated copy — `production` by default; feature branches for dev work |
-# MAGIC | Synced table | Unity Catalog table copied into Postgres (`_synced` suffix, read-only) |
+# MAGIC | Synced table | Unity Catalog table copied into Postgres (destination name is selected during creation) |
 # MAGIC | Registered catalog | Lakebase database visible as a read-only catalog in Unity Catalog |
 # MAGIC
-# MAGIC CLI: `databricks postgres list-projects` · UI: App switcher → Lakebase → Autoscaling
+# MAGIC CLI: `databricks postgres list-projects`, then `databricks postgres list-branches projects/<PROJECT_ID>` · UI: app switcher → Lakebase Postgres → Autoscaling
 # MAGIC
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — list Lakebase projects from your terminal
 # COMMAND ----------
 # MAGIC %md
-# MAGIC In an authenticated terminal, run `databricks postgres list-projects`. The list may be
-# MAGIC empty or unavailable if the feature or permissions are not enabled. Record the project
-# MAGIC and branch shown by your workspace; do not paste credentials here.
+# MAGIC In an authenticated terminal, run `databricks postgres list-projects`, then
+# MAGIC `databricks postgres list-branches projects/<PROJECT_ID>` for an observed project ID.
+# MAGIC Results may be empty or unavailable if the feature or permissions are not enabled.
+# MAGIC Record the project and branch actually shown; do not paste credentials here.
 
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — create the UC table a synced table would copy
 # COMMAND ----------
-# A synced table copies a UC table (main.default.x) into Postgres as
-# <schema>.<table>_synced. This cell creates the source table.
+# A synced table copies a UC table (main.default.x) into Postgres under the
+# destination table name selected in the create-synced-table flow.
 src = f"`{catalog}`.`{schema}`"
 spark.sql(f"""
 CREATE OR REPLACE TABLE {src}.lakebase_source AS
@@ -78,10 +79,16 @@ spark.sql(f"DESCRIBE TABLE {src}.lakebase_source").show(truncate=False)
 # MAGIC
 # MAGIC In the workspace UI:
 # MAGIC
-# MAGIC 1. Catalog → `lakebase_source` → **Create** → **Synced table** (Snapshot mode).
-# MAGIC    Confirm a read-only `<schema>.lakebase_source_synced` appears in the Lakebase SQL
-# MAGIC    Editor, queryable with Postgres SQL.
-# MAGIC 2. (Optional) Register the database in Unity Catalog and browse the new read-only catalog.
+# MAGIC 1. Catalog → `lakebase_source` → **Create** → **Synced table**. Choose the destination
+# MAGIC    catalog/schema and enter the destination table name. Select Lakebase Postgres
+# MAGIC    **Autoscaling**, project, branch and database. For a snapshot, choose **On-demand**,
+# MAGIC    then **Advanced settings** → **Snapshot**. Snapshot and Triggered are both On-demand
+# MAGIC    modes. The initial load starts at creation; later Snapshot syncs are manual or scheduled.
+# MAGIC    Review all settings and create only when authorized. The table name is configurable.
+# MAGIC 2. (Optional, permission-dependent) Catalog Explorer → **Create a catalog** → **Lakebase
+# MAGIC    Postgres** → **Autoscaling**; select project, branch and database. This requires
+# MAGIC    metastore `CREATE CATALOG`. Browse/query the read-only registered catalog with serverless
+# MAGIC    SQL warehouse or serverless notebook/job compute; Pro/classic compute is unsupported.
 # MAGIC
 # MAGIC Replace this cell's text with a summary: project name, branch, synced table name.
 # MAGIC Then one paragraph: which tables would become synced snapshots (read-only, app-facing)

@@ -1,6 +1,6 @@
 # Assignment 04 — Genie as an Agent Tool
 
-Call a Genie Agent from code and sketch its use as an agent tool. The compatible Chat mode API continues to use `/spaces/{space_id}` paths.
+Call a Genie Agent from code and sketch its use as an agent tool. The [Chat mode API](https://docs.databricks.com/aws/en/genie-agents/conversation-api) uses `/spaces/{space_id}` paths. Agent mode uses a separate streaming endpoint.
 
 ## Materials
 

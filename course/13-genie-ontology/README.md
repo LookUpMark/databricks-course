@@ -3,9 +3,12 @@
 Inspect modeled and learned context and how Genie uses it.
 
 Scope this assignment to the documented [Genie One](https://docs.databricks.com/aws/en/genie-one)
-and [Genie Code](https://docs.databricks.com/aws/en/genie-code) experiences. Available surfaces
-vary by workspace; use the official [Genie overview](https://docs.databricks.com/aws/en/genie/) as
-the feature reference and treat your observations as workspace specific.
+and [Genie Code](https://docs.databricks.com/aws/en/genie-code) experiences. Both search the same
+Genie Ontology, which combines modeled knowledge (governed context defined through Unity Catalog
+semantics) and learned knowledge (snippets extracted from assets and usage). Context exposed in a
+particular response can vary by surface, feature, permissions, and workspace configuration. Use
+the official [Genie overview](https://docs.databricks.com/aws/en/genie/) as the feature reference
+and treat your observations as workspace specific.
 
 ## Materials
 

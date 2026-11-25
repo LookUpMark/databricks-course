@@ -5,7 +5,8 @@
 # MAGIC %md
 # MAGIC # Assignment 11 — Worked solution
 # MAGIC
-# MAGIC Example terminal observation: `databricks postgres list-projects` may return a project
+# MAGIC Example terminal observation: `databricks postgres list-projects`, then
+# MAGIC `databricks postgres list-branches projects/<PROJECT_ID>`, may return a project
 # MAGIC list, an empty list, or a permission/feature error. Record only what your workspace
 # MAGIC actually shows. Never invent a project, branch, or synced table. Creating a Lakebase
 # MAGIC resource or synced table is optional and requires explicit workspace authorization.
@@ -49,7 +50,10 @@ spark.sql(f"SELECT * FROM {src}.lakebase_source ORDER BY user_id").show(truncate
 # MAGIC remain in Postgres when Postgres is the system of record.
 # MAGIC ```
 # MAGIC
-# MAGIC If authorized, Catalog Explorer → source table → **Create** → **Synced table**. Review
-# MAGIC target project, branch, mode, and schema before confirming. In Lakebase SQL Editor, inspect
+# MAGIC If authorized, Catalog Explorer → source table → **Create** → **Synced table**. Choose
+# MAGIC destination catalog/schema and enter a destination table name; select Lakebase Postgres
+# MAGIC Autoscaling, project, branch and database. Snapshot is under **On-demand** → **Advanced
+# MAGIC settings**. The initial load begins at creation; later snapshots are manual or scheduled.
+# MAGIC Review settings before confirming. In Lakebase SQL Editor, inspect
 # MAGIC the actual destination and sample rows. Clean up only resources created for this exercise
 # MAGIC and only when your workspace instructions permit it.

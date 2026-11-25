@@ -6,8 +6,11 @@
 # MAGIC # Assignment 13 — Worked solution
 # MAGIC
 # MAGIC The notebook's `orders` table is synthetic and stays in your personal schema. Its
-# MAGIC comment provides a proposed definition for inspection; it does not prove Genie One used
-# MAGIC the definition and is not a reason to certify the table.
+# MAGIC comment provides a proposed definition for inspection; it does not prove it is modeled
+# MAGIC Genie Ontology context or that a response used it, and is not a reason to certify the table.
+# MAGIC Genie One and Genie Code search the same ontology, which combines governed modeled knowledge
+# MAGIC with learned snippets from assets and usage. Context surfaced can vary by surface, feature,
+# MAGIC permissions, and workspace configuration.
 
 # COMMAND ----------
 dbutils.widgets.text("catalog", defaultValue="")

@@ -10,7 +10,8 @@
 # MAGIC
 # MAGIC **Example deliverable (illustrative only):**
 # MAGIC - Workspace path: `/Workspace/Users/<your-email>/course/01-workspace/solution`
-# MAGIC - Compute: Serverless, environment 5 (illustrative). For classic compute, use its Databricks Runtime version.
+# MAGIC - Compute type/version: Serverless, environment 5 (illustrative); for classic compute, record its Databricks Runtime version.
+# MAGIC - Spark: `<version printed below>`
 # MAGIC - Python: `<version printed below>`
 # MAGIC - Interactive notebooks stay attached to the selected compute; a job task
 # MAGIC   starts under the job's configured compute and receives task parameters.
@@ -29,7 +30,7 @@ print(f"Python version: {sys.version.split()[0]}")
 # MAGIC Catalog Volume stores governed data files. A path listing can fail when
 # MAGIC the caller lacks access. In that case click **Workspace** in the sidebar,
 # MAGIC open **Users** and your folder, then open the notebook and choose
-# MAGIC **File > Copy path** (or copy its breadcrumb).
+# MAGIC right-click the notebook in Workspace and choose **Copy > Path**.
 
 # COMMAND ----------
 from pathlib import Path
@@ -61,4 +62,4 @@ try:
     context = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
     print(f"Notebook path: {context.notebookPath().get()}")
 except Exception:  # noqa: BLE001 - access to notebook context varies by compute
-    print("Use Copy path from the notebook or its Workspace entry.")
+    print("Right-click the notebook in Workspace and choose **Copy > Path**.")

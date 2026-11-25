@@ -1,5 +1,5 @@
 # Databricks notebook source
-# Assignment 05 - Agents (Mosaic AI Agent Framework).
+# Assignment 05 — Custom agents with LangChain and MLflow.
 # Builds a minimal tool-calling agent with LangGraph + traces, and logs it to MLflow.
 
 # COMMAND ----------
@@ -93,12 +93,10 @@ print("Open the experiment from Machine Learning → Experiments and inspect the
 
 # COMMAND ----------
 # MAGIC %md
-# MAGIC ## Exercise 4 — registration & evaluation (documented)
+# MAGIC ## Exercise 4 — deployment and evaluation design
 # MAGIC
-# MAGIC - This example creates a traced MLflow run; it does not log a model artifact,
-# MAGIC   so `runs:/{run_id}/model` is not available from this notebook as written.
-# MAGIC - To serve it, implement and log the documented ChatAgent interface, validate
-# MAGIC   its model signature/dependencies, then register the resulting logged URI.
+# MAGIC - This example logs a run and agent traces. Use them to verify the model's call to the SQL tool.
+# MAGIC - For a new deployment, use the Agent Bricks CLI and Agent Runtime described in topic 12.
 # MAGIC - Evaluate a packaged agent on a golden set using supported MLflow evaluation
 # MAGIC   APIs and workspace judges; exact options depend on the installed runtime.
 # MAGIC

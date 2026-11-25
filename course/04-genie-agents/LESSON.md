@@ -1,7 +1,9 @@
 # Assignment 04 — Genie as an Agent Tool
 
 ## Before you start
-Complete Assignment 03 and have the Genie Agent ID available. Set the notebook widget to that ID. The widget and Chat mode API still call this a `space_id`: the compatible conversation endpoint is `/api/2.0/genie/spaces/{space_id}/...`, even though the current UI product is named Genie Agents. Use Databricks notebook authentication through `WorkspaceClient` and a supported `requests` client; never paste a personal access token into notebook source or output. The caller needs permission to use the agent. The example uses synthetic data from Assignment 03.
+Complete Assignment 03 and have the Genie Agent ID available. Set the notebook widget to that ID. The widget and Chat mode API still call this a `space_id`: the compatible conversation endpoint is `/api/2.0/genie/spaces/{space_id}/...`, even though the current UI product is named Genie Agents. Use Databricks notebook authentication through `WorkspaceClient` and a supported `requests` client; never paste a personal access token into notebook source or output. The caller needs at least `CAN VIEW` on the Genie Agent and `SELECT` on its Unity Catalog data. The example uses synthetic data from topic 03.
+
+The separate [Agent mode API](https://docs.databricks.com/api/genie/v1/agent-mode-create-response) streams responses through `/api/2.0/genie/agents/{agent_id}/responses`. The exercise demonstrates Chat mode with polling.
 
 ## Walkthrough
 1. Copy the agent ID from its workspace URL or settings page and enter it in the `genie_space_id` notebook widget. The API path and identifier retain the legacy “space” name for compatibility.

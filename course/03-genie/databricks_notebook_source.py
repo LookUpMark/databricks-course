@@ -57,7 +57,7 @@ ORDER BY month
 # MAGIC %md
 # MAGIC ## Deliverable
 # MAGIC
-# MAGIC Follow LESSON.md to create a Genie Agent, add two instructions and a trusted query,
+# MAGIC Follow LESSON.md to create a Genie Agent, add two instructions and an example SQL query,
 # MAGIC and review the SQL behind three questions. Record the agent name, questions,
 # MAGIC SQL review, and one instruction you refined. Keep the agent through topic 04
 # MAGIC and the table through topics 05, 07 and 13.

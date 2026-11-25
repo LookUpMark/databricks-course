@@ -13,6 +13,9 @@
 # MAGIC The Agent Bricks CLI (Beta) scaffolds custom agents from LangGraph or OpenAI Agents
 # MAGIC SDK templates, runs them locally, and can optionally deploy them to the Databricks
 # MAGIC agent runtime. Its exact behavior and availability are workspace dependent.
+# MAGIC Authenticate to the intended workspace using the named Databricks CLI profile; there is
+# MAGIC no separate workspace-switch command in this flow. Deployment is optional and depends on
+# MAGIC workspace access and explicit authorization.
 # MAGIC
 # COMMAND ----------
 # MAGIC %md
@@ -35,11 +38,11 @@
 # MAGIC
 # MAGIC ```bash
 # MAGIC uv tool install databricks-agentbricks
-# MAGIC databricks auth login --host https://<your-workspace-url> --profile course
+# MAGIC databricks auth login --host "https://<your-workspace-url>" --profile course
 # MAGIC agentbricks login --profile course
 # MAGIC agentbricks init --framework langgraph my-agent
 # MAGIC cd my-agent && agentbricks dev  # local loop, localhost:8000
-# MAGIC # Optional, only when authorized: agentbricks deploy my-agent
+# MAGIC # Optional, only when authorized and permitted: agentbricks deploy my-agent
 # MAGIC ```
 # MAGIC
 # MAGIC Consult the linked official CLI guide for exact current options, auth behavior, and
@@ -50,7 +53,7 @@
 # COMMAND ----------
 # MAGIC %md
 # MAGIC Deployment is optional. If you deployed with authorization, record the actual returned URL
-# MAGIC and inspect that app under workspace **Apps**. If you did not deploy, record “not deployed”.
+# MAGIC and inspect the app in **Databricks Apps**. If you did not deploy, record “not deployed”.
 
 
 # COMMAND ----------
