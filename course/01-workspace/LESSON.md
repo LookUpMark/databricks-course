@@ -10,7 +10,7 @@ Open the assigned notebook in the Databricks workspace and attach compute you ha
 4. Create the `name` widget from the widget cell or widget panel, enter a value, and run the greeting cell. Change the value and rerun to confirm the input is read at execution time. The [sample job YAML](../../resources/sample_job.job.yml) shows how Jobs passes parameters to its notebook task.
 5. Read the `%run` and `dbutils.notebook.run` explanation. `%run` includes another notebook in the current context; `dbutils.notebook.run` starts a nested execution and returns its exit value. Write one sentence about when you would use each.
 6. Run the notebook-path cell and compare its result with the workspace breadcrumb. If they differ, record the value reported by the notebook and note the discrepancy.
-7. Complete the deliverable cell at the bottom and keep all outputs visible.
+7. Complete the deliverable cell at the bottom using the path and version values from your own run. Copy the workspace path with **Copy > Path** and use the Spark/Python versions printed by the notebook; do not copy the `<...>` example placeholders from the worked solution literally. Keep all outputs visible.
 
 ## Check your work
 You should have a workspace path, separate compute environment, Spark and Python versions, a greeting using your widget value, and a written distinction between `%run` and nested notebook execution. If listing from Python is unavailable, right-click the notebook in the Workspace browser and choose **Copy > Path**. Record the error or feature limitation shown by your environment.

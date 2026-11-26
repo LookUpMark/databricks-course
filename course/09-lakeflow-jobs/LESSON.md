@@ -22,7 +22,7 @@ The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MA
    ```
    Wait for the command to return a run URL or ID.
 4. Open the run URL in the workspace UI. Inspect task status, dependency graph, compute, parameters, logs, and output. Confirm the run succeeded. In the [notebook task](../../src/sample_notebook.py) output, record the `Job run ID` and `Task run ID` printed by the sample notebook; these are passed using supported dynamic value references.
-5. In **Jobs & Pipelines**, open `[dev <workspace-user-short-name>] sample_job` and compare the display name with the `sample_job` resource key.
+5. In **Jobs & Pipelines**, find the deployed job whose name starts with `[dev` and ends with `sample_job`; the middle part is your workspace user short name, so do not search for the angle-bracket text literally. Compare the displayed name with the `sample_job` resource key.
 6. Design a separate three-task ingest → train → evaluate DAG in a Markdown cell. Specify task types, dependencies, and a sensible retry policy; also state what the `dev` target changed.
 
 ### How catalog and schema reach the tasks

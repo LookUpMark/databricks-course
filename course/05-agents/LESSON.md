@@ -1,7 +1,7 @@
 # Assignment 05 — Custom agents with LangChain and MLflow
 
 ## Before you start
-Open the notebook on supported Databricks compute. Run the dependency setup cell and allow the Python restart to finish before continuing. Use the same catalog and schema as [topic 03](../03-genie/LESSON.md). Choose an approved Unity Gateway chat model service that supports tool calling, then enter its exact model service name in the `chat_endpoint` widget. The notebook routes requests through Unity Gateway with `use_ai_gateway=True`. The notebook pins the LangChain stack to a [compatible version set](https://docs.databricks.com/aws/en/agents/custom-agents/create-custom-tool).
+Open the notebook on supported Databricks compute. Run the dependency setup cell and allow the Python restart to finish before continuing. Use the same catalog and schema as [topic 03](../03-genie/LESSON.md). Choose an approved Unity Gateway chat model service that supports tool calling, then enter its exact endpoint/service name in the `chat_endpoint` widget. Use the name supplied by your workspace administrator or shown for the approved service; do not enter the workspace URL or a model-family label. If no approved endpoint name is available, ask your administrator before continuing. The notebook routes requests through Unity Gateway with `use_ai_gateway=True`. The notebook pins the LangChain stack to a [compatible version set](https://docs.databricks.com/aws/en/agents/custom-agents/create-custom-tool).
 
 ## Walkthrough
 1. Run the tool cell and inspect the function and its input/output schema. The example tool counts the synthetic `orders` rows.

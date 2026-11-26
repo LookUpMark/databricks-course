@@ -7,8 +7,18 @@ Run the notebook cells first. They create a clearly labeled synthetic `orders` t
 1. In the notebook, run the table creation cell and the comment-verification cell. Confirm the table and column comments describe the business meaning, especially which orders count as revenue.
 2. Run the sanity SQL cell and note the expected revenue result. This gives you a reference answer to compare with Genie.
 3. In the workspace sidebar, click **Genie Agents → New**. Select the `orders` table in your lab schema and click **Create**. Genie Code opens with context suggestions; review them before accepting. To change sources later, use **Configure → Data**.
-4. Under **Configure**, add two concise instructions, including the revenue definition. Use **Examples** to save the monthly revenue SQL from the notebook as an example query. Databricks calls parameterized examples and Unity Catalog SQL functions [trusted assets](https://docs.databricks.com/aws/en/genie-agents/tune-quality/); this lab uses an ordinary example query.
-5. Save the agent. Ask three natural-language questions about the sample data. For each response, open the generated SQL and compare it with the expected semantics and notebook result.
+4. Under **Configure**, add two concise instructions, including the revenue definition. Under **Examples**, add a SQL example using the monthly paid-revenue query below. Replace `YOUR_CATALOG` and `YOUR_SCHEMA` with the exact values from the notebook widgets, keep the backticks, and paste only this `SELECT` query. Do not paste the notebook's `CREATE OR REPLACE TABLE` setup cell into **Examples**.
+
+   ```sql
+   SELECT date_format(order_date, 'yyyy-MM') AS month, sum(amount) AS revenue_eur
+   FROM `YOUR_CATALOG`.`YOUR_SCHEMA`.orders
+   WHERE status = 'paid'
+   GROUP BY date_format(order_date, 'yyyy-MM')
+   ORDER BY month
+   ```
+
+   Databricks calls parameterized examples and Unity Catalog SQL functions [trusted assets](https://docs.databricks.com/aws/en/genie-agents/tune-quality/); this lab uses an ordinary example query.
+5. Save the agent. Ask three natural-language questions about the sample data, for example: “What is total paid revenue?”, “Show paid revenue by month”, and “How many orders are pending?” For each response, open the generated SQL and compare it with the expected semantics and notebook result. Revenue queries should filter to `status = 'paid'`.
 6. Mark one incorrect or weak answer using the available feedback control. If no answer is wrong, flag the least clear answer and explain the correction you would make.
 7. Add a final Markdown cell recording the agent name, questions, SQL correctness, and an instruction you added or refined.
 
