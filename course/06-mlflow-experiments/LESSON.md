@@ -1,12 +1,12 @@
 # Assignment 06 — MLflow Experiments
 
 ## Before you start
-Attach compute with [MLflow 3](https://docs.databricks.com/aws/en/mlflow/mlflow-3-install) and scikit-learn available. Use a workspace experiment path under your user folder unless the notebook provides an assigned path.
+Open the [assignment notebook](databricks_notebook_source.py) and attach compute with [MLflow 3](https://docs.databricks.com/aws/en/mlflow/mlflow-3-install) and scikit-learn available. The notebook creates an experiment under your signed-in user's folder; use the path it prints rather than substituting a different experiment.
 
 ## Walkthrough
 1. Run the setup cell to set the experiment. Confirm the experiment path printed by MLflow.
-2. Run the training cell to create three runs with different hyperparameters. In the Databricks workspace, open **Machine Learning → Experiments** (use the experiment path printed in the notebook) and confirm all three runs appear.
-3. Run the search and report cell. It picks one of the three runs by `cv_auc` and adds `evaluation_report.txt` to that run. Confirm the run ID and inspect the report in the **Artifacts** tab.
+2. Run the training cell once to create three runs (`logreg-c0.1`, `logreg-c1`, and `logreg-c10`) with different regularization values. In the Databricks workspace, open **Machine Learning → Experiments**, find the printed experiment path, and confirm all three runs appear.
+3. Run the search and report cell. It selects the run with the highest `cv_auc` from this notebook session (earliest start time breaks a tie) and adds `evaluation_report.txt` to that run. Confirm the printed run ID and metric, open the run, select **Artifacts**, and inspect the report.
 4. The notebook explicitly logs each model with MLflow 3 and saves the returned model URI with its run. Optionally register the best run using that URI in Unity Catalog if you have privileges to create the registered model and model version. In the optional example, replace `YOUR_CATALOG` and `YOUR_SCHEMA` in `YOUR_CATALOG.YOUR_SCHEMA.playbook_classifier` with your actual Unity Catalog names before running it; the literal placeholder name will fail. If you lack the required privileges, leave the model at the logged-artifact stage and record that registration was skipped.
 5. Add a Markdown cell with experiment path, best run ID, metric value, and when you would use an alias instead of a fixed model version.
 

@@ -1,7 +1,7 @@
 # Assignment 09 — Lakeflow Jobs
 
 ## Before you start
-Follow the [bundle setup](../../README.md#run-the-bundle) and use an existing [personal Unity Catalog schema](../02-unity-catalog/LESSON.md). Review the [job YAML](../../resources/sample_job.job.yml) and the [pipeline YAML](../../resources/playbook_etl.pipeline.yml). This walkthrough uses the `dev` target.
+Open the [companion notebook](databricks_notebook_source.py), follow the [bundle setup](../../README.md#run-the-bundle), and use an existing [personal Unity Catalog schema](../02-unity-catalog/LESSON.md). From the repository root, review the [job YAML](../../resources/sample_job.job.yml) and the [pipeline YAML](../../resources/playbook_etl.pipeline.yml). This walkthrough deploys and runs only the `dev` target.
 
 The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MATERIALIZED VIEW` on the destination. It also needs `SELECT` on `samples.nyctaxi.trips` and usage privileges on the source catalog and schema. The job's identity needs usage privileges on the destination and read access to the same sample table for the wheel task. See [pipeline permissions](https://docs.databricks.com/aws/en/ldp/privileges) and [Unity Catalog requirements for pipelines](https://docs.databricks.com/aws/en/ldp/unity-catalog#requirements).
 
@@ -15,7 +15,7 @@ The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MA
    databricks bundle validate --target dev
    ```
    Replace both placeholders with the real catalog and schema identifiers. Use letters, digits, and underscores, starting with a letter or underscore. Inspect validation errors before deployment.
-3. Deploy and run only the dev target:
+3. Continue only after `bundle validate` succeeds and its output has no unresolved errors. Deploy and run only the dev target:
    ```bash
    databricks bundle deploy --target dev
    databricks bundle run sample_job --target dev

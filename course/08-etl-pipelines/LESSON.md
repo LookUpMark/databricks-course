@@ -1,15 +1,15 @@
 # Assignment 08 — Medallion ETL
 
 ## Before you start
-Run the notebook in order. It creates sample tables in the scratch schema; verify the catalog/schema widgets before executing write cells.
+Open the [assignment notebook](databricks_notebook_source.py), set its `catalog` and `schema` widgets to your pre-created writable scratch schema, then run the cells in order. The notebook creates sample tables in that schema; verify the widget values before executing write cells. Any `<catalog>` and `<schema>` shown in example table names stand for those widget values; replace them and omit the angle brackets.
 
 ## Walkthrough
-1. Run the bronze cell to create the table and insert events whose `event_id` is new. Inspect the row count and check that the original JSON is preserved.
-2. Run the silver cell. Review the transformations: type casting, invalid-record filtering, and deduplication by key. Compare its count and schema with bronze.
-3. Run the gold `MERGE` cell. Confirm the aggregate/upsert output and note the fully qualified table name and row count.
+1. Run **Exercise 1 — bronze: raw data as it lands**. It creates `<catalog>.<schema>.bronze_events` and inserts only unseen `event_id` values. Inspect the row count and confirm the original JSON is preserved in `raw`.
+2. Run **Exercise 2 — silver: clean, dedupe, type**. It writes `<catalog>.<schema>.silver_events`; review type casting, invalid-record filtering, whitespace trimming, and keeping the latest valid event per `id`. Compare its count and schema with bronze.
+3. Run **Exercise 3 — gold: MERGE into aggregate**. It upserts per-customer totals into `<catalog>.<schema>.gold_customer_totals`. Confirm the aggregate output and note the fully qualified name and row count.
 4. Run the time-travel cell and compare the row counts. The cell captures the bronze version and queries it for you; no manual SQL is needed. On a first run in an empty lab schema, the saved bronze version has zero rows and the current version has four. On a rerun with the same events, both have four. If you write a manual `VERSION AS OF` query, replace `<saved-version>` with the integer version you recorded and omit the angle brackets.
 5. Read the Auto Loader note. For production, identify a durable checkpoint location unique to the stream; do not use a temporary local path. State the durable `schemaLocation` and `checkpointLocation` paths under the [topic 02 volume](../02-unity-catalog/LESSON.md) named `playbook_files` and the pipeline identity permissions (`READ VOLUME`, `WRITE VOLUME`). Replace `<catalog>` and `<schema>` in the example paths with the widget values when recording them. This is a design exercise only; do not configure or run Auto Loader.
-6. Add a Markdown cell with the bronze, silver, and gold table names, row counts, and proposed checkpoint path.
+6. Add a Markdown cell with the three fully qualified names (`bronze_events`, `silver_events`, and `gold_customer_totals`), their row counts, and the proposed checkpoint path. On a clean first run, expect 4 bronze, 2 silver, and 2 gold rows.
 
 ## Check your work
 All three medallion layers exist, silver is cleaned/deduplicated, gold contains the expected aggregate, and time travel reads an earlier version.

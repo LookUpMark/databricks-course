@@ -1,11 +1,11 @@
 # Assignment 03 — Genie Agents
 
 ## Before you start
-Run the notebook cells first. They create a clearly labeled synthetic `orders` table in your personal scratch schema; the Genie Agent is created separately in the workspace UI. Set non-empty `catalog` and `schema` widgets. You need the Databricks SQL entitlement, `CAN USE` on a Pro or serverless SQL warehouse, `USE CATALOG`, `USE SCHEMA`, and `SELECT` on the data the agent queries. Creating `orders` requires `CREATE TABLE`. Replacing it also requires ownership or `MANAGE` on the table; run this only in your personal schema. When editing an existing Genie Agent, you need at least `CAN EDIT`. See [Genie Agent requirements](https://docs.databricks.com/aws/en/genie-agents/set-up).
+Open the [assignment notebook](databricks_notebook_source.py), set non-empty `catalog` and `schema` widgets, and run the setup and sanity-query cells before creating the Genie Agent. They create a clearly labeled synthetic `orders` table in your personal scratch schema; the agent is created separately in the workspace UI. You need the Databricks SQL entitlement, `CAN USE` on a Pro or serverless SQL warehouse, `USE CATALOG`, `USE SCHEMA`, and `SELECT` on the data the agent queries. Creating `orders` requires `CREATE TABLE`. Replacing it also requires ownership or `MANAGE` on the table; run this only in your personal schema. When editing an existing Genie Agent, you need at least `CAN EDIT`. See [Genie Agent requirements](https://docs.databricks.com/aws/en/genie-agents/set-up).
 
 ## Walkthrough
 1. In the notebook, run the table creation cell and the comment-verification cell. Confirm the table and column comments describe the business meaning, especially which orders count as revenue.
-2. Run the sanity SQL cell and note the expected revenue result. This gives you a reference answer to compare with Genie.
+2. Run the sanity SQL cell and note the reference result: paid revenue is EUR 100 for 2026-01, EUR 250 for 2026-02, and EUR 120 for 2026-04. The refund and pending rows are excluded. Compare Genie with this result.
 3. In the workspace sidebar, click **Genie Agents → New**. Select the `orders` table in your lab schema and click **Create**. Genie Code opens with context suggestions; review them before accepting. To change sources later, use **Configure → Data**.
 4. Under **Configure**, add two concise instructions, including the revenue definition. Under **Examples**, add a SQL example using the monthly paid-revenue query below. Replace `YOUR_CATALOG` and `YOUR_SCHEMA` with the exact values from the notebook widgets, keep the backticks, and paste only this `SELECT` query. Do not paste the notebook's `CREATE OR REPLACE TABLE` setup cell into **Examples**.
 
