@@ -50,6 +50,18 @@ databricks bundle deploy --target dev
 databricks bundle run sample_job --target dev
 ```
 
+In PowerShell, set the profile and bundle variables in the current session before running `task validate` or another bundle command:
+
+```powershell
+$env:DATABRICKS_CONFIG_PROFILE = 'course'
+$env:BUNDLE_VAR_catalog = 'your_writable_catalog'
+$env:BUNDLE_VAR_schema = 'course_yourname'
+
+task validate
+```
+
+Use the writable catalog and existing schema you selected in topic 02. These environment variables last for the current PowerShell session.
+
 - **Authentication** uses the named CLI profile on your machine. `auth describe` lets you check the host with credentials masked. If you see a different workspace, inspect your active profile and any Databricks auth environment overrides before deploying.
 - **Validate** checks bundle configuration and resolves resource references. To preview the uploaded files, use `databricks bundle sync --target dev --dry-run`.
 - **Deploy** builds the `playbook` wheel with `uv`, uploads the job notebook and pipeline sources, and creates a personal development copy of the job and pipeline. The workspace puts it under your user folder's `.bundle/databricks_course/dev` path by default. The development resource names have a `[dev …]` prefix and the periodic trigger is paused. Use one checkout per workspace identity for this lab. Two checkouts deployed by the same user to the same target share the default deployment path.
