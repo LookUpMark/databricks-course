@@ -49,13 +49,14 @@ best = mlflow.search_runs(
     filter_string=f"tags.course_session = '{session_id}'",
     order_by=["metrics.cv_auc DESC", "attributes.start_time ASC"],
     max_results=1,
-).iloc[0]
-best_model_uri = best["params.logged_model_uri"]
-print(f"Best run: {best.run_id} (cv_auc={best['metrics.cv_auc']:.4f})")
+    output_format="list",
+)[0]
+best_model_uri = best.data.params["logged_model_uri"]
+print(f"Best run: {best.info.run_id} (cv_auc={best.data.metrics['cv_auc']:.4f})")
 print(f"Best model URI: {best_model_uri}")
 
-with mlflow.start_run(run_id=best.run_id):
-    mlflow.log_text(f"Best cv_auc: {best['metrics.cv_auc']}", "evaluation_report.txt")
+with mlflow.start_run(run_id=best.info.run_id):
+    mlflow.log_text(f"Best cv_auc: {best.data.metrics['cv_auc']}", "evaluation_report.txt")
 
 # COMMAND ----------
 # MAGIC %md
