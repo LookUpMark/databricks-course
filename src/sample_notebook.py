@@ -7,6 +7,7 @@
 # MAGIC
 # MAGIC The job in `resources/sample_job.job.yml` passes its catalog and schema
 # MAGIC parameters and its job/task run IDs to this notebook as widgets.
+# MAGIC The pipeline task uses the catalog and schema configured at deployment.
 
 # COMMAND ----------
 

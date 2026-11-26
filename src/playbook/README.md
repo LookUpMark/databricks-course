@@ -5,7 +5,7 @@ The course bundle builds this package as a Python wheel. The `python_wheel_task`
 | Module | Purpose |
 |---|---|
 | `main.py` | Parses job arguments, selects the schema, and previews the sample NYC taxi data. |
-| `context.py` | Resolves job arguments against package defaults. |
+| `context.py` | Validates explicit job arguments and returns the Unity Catalog context. |
 | `taxis.py` | Reads `samples.nyctaxi.trips` using an injected Spark session. |
 | `config/` | Loads YAML and validates it with Pydantic. The bundle passes catalog and schema explicitly. |
 | [utils/](utils/README.md) | CLI parsing and logging with Loguru. |

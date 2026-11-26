@@ -1,7 +1,7 @@
 # Databricks notebook source
 # Assignment 01 - Workspace & Notebooks.
 # Lesson + exercise + deliverable for the Databricks ML Engineer playbook.
-# Docs in English; run top to bottom on any cluster.
+# Run on supported Databricks notebook compute. Use the Workspace UI if file listing is unavailable.
 
 # COMMAND ----------
 # MAGIC %md
@@ -28,7 +28,6 @@
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — inspect the runtime
-# COMMAND ----------
 import sys
 
 print(f"Spark version: {spark.version}")
@@ -70,7 +69,6 @@ print(f"Hello, {name}! Widgets are the standard way to parameterize notebooks.")
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 5 — find this notebook's own path
-# COMMAND ----------
 # In a job run the path is available through the task context.
 try:
     ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext()

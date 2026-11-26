@@ -16,5 +16,6 @@ and **Share** for existing `CAN USE`/`CAN MANAGE` access; do not change permissi
 
 - Executed notebook or UI observations: app list (which may be empty).
 - One markdown cell: the app URL(s) you found + permissions notes.
-- One paragraph: which of the three patterns (ops on Lakebase / agent on Agent Bricks /
-  analytics on UC) is the most natural fit for this project and why.
+- One paragraph explaining which pattern fits the project and why. Consider an analytics
+  dashboard over Unity Catalog, an operational app backed by Lakebase, or an agent interface
+  powered by Agent Bricks.

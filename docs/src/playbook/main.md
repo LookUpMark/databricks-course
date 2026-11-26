@@ -23,8 +23,7 @@ tasks. Steps, in order:
 1. Builds the argument list and calls `parse_args(["--catalog", catalog, "--schema", schema])`
    to obtain a `JobArgs`.
 2. Calls `load_settings()` to get the validated aggregate `Settings`.
-3. Calls `resolve_context(args, settings)`, returning the effective
-   `JobContext` (arguments win over settings).
+3. Calls `resolve_context(args, settings)` to validate the explicit catalog and schema and return the effective `JobContext`.
 4. Executes `USE CATALOG` and `USE SCHEMA` through the runtime `spark` session.
 5. Logs the active context at INFO.
 6. Calls `taxis.find_all_taxis(spark)` and passes the DataFrame to

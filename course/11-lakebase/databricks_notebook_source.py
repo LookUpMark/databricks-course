@@ -41,7 +41,6 @@ if not _IDENTIFIER.fullmatch(catalog) or not _IDENTIFIER.fullmatch(schema):
 # MAGIC
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — list Lakebase projects from your terminal
-# COMMAND ----------
 # MAGIC %md
 # MAGIC In an authenticated terminal, run `databricks postgres list-projects`, then
 # MAGIC `databricks postgres list-branches projects/<PROJECT_ID>` for an observed project ID.
@@ -51,27 +50,39 @@ if not _IDENTIFIER.fullmatch(catalog) or not _IDENTIFIER.fullmatch(schema):
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — create the UC table a synced table would copy
-# COMMAND ----------
 # A synced table copies a UC table (main.default.x) into Postgres under the
 # destination table name selected in the create-synced-table flow.
-src = f"`{catalog}`.`{schema}`"
-spark.sql(f"""
-CREATE OR REPLACE TABLE {src}.lakebase_source AS
+source_table = f"`{catalog}`.`{schema}`.lakebase_source"
+fixture = """
 SELECT * FROM VALUES
-  (1, 'power_user', 0.92, DATE'2026-11-20'),
-  (2, 'casual',     0.35, DATE'2026-11-21'),
-  (3, 'power_user', 0.88, DATE'2026-11-22')
+  (1, 'power_user', 0.92, DATE '2026-11-20'),
+  (2, 'casual',     0.35, DATE '2026-11-21'),
+  (3, 'power_user', 0.88, DATE '2026-11-22')
 AS t(user_id, segment, engagement_score, last_seen_date)
+"""
+spark.sql(f"""
+CREATE TABLE IF NOT EXISTS {source_table}
+USING DELTA
+COMMENT 'SYNTHETIC DEMO DATA. Example UC source for a Lakebase snapshot.'
+AS {fixture}
 """)
-spark.sql(
-    f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example UC source for an optional Lakebase snapshot exercise.'"
-)
-print(f"Created {src}.lakebase_source")
+
+expected = spark.sql(fixture)
+source = spark.table(source_table)
+expected_rows = expected.orderBy("user_id").collect()
+if (
+    source.schema.simpleString() != expected.schema.simpleString()
+    or source.orderBy("user_id").take(len(expected_rows) + 1) != expected_rows
+):
+    raise ValueError(
+        f"{source_table} already contains different data or has a different schema. "
+        "Use a personal lab schema without that table before creating a sync."
+    )
+print(f"Verified synthetic source table: {source_table}")
 
 # COMMAND ----------
 # DBTITLE 1,Inspect the source table (what the synced copy would reflect)
-# COMMAND ----------
-spark.sql(f"DESCRIBE TABLE {src}.lakebase_source").show(truncate=False)
+spark.sql(f"DESCRIBE TABLE {source_table}").show(truncate=False)
 
 # COMMAND ----------
 # MAGIC %md
@@ -90,6 +101,6 @@ spark.sql(f"DESCRIBE TABLE {src}.lakebase_source").show(truncate=False)
 # MAGIC    metastore `CREATE CATALOG`. Browse/query the read-only registered catalog with serverless
 # MAGIC    SQL warehouse or serverless notebook/job compute; Pro/classic compute is unsupported.
 # MAGIC
-# MAGIC Replace this cell's text with a summary: project name, branch, synced table name.
+# MAGIC Record the project name, branch, and synced table name, or explain why you skipped the sync.
 # MAGIC Then one paragraph: which tables would become synced snapshots (read-only, app-facing)
 # MAGIC vs. which would stay in Postgres as the operational source of truth?

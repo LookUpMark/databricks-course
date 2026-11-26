@@ -1,13 +1,13 @@
 # General project settings.
 #
-# Values that identify the project and its Databricks deployment defaults.
+# Example values for consumers of the package configuration.
 
-# Logical project name, used in deployed resource names and log prefixes.
+# Example logical project name.
 project_name: playbook
 
-# Default Unity Catalog identifiers, overridden by job parameters or CLI args.
+# Example Unity Catalog identifiers. The bundle job uses explicit arguments.
 catalog: workspace
 schema: default
 
-# Python log level for the centralized loguru configuration.
+# Example Python log level for Loguru consumers.
 log_level: INFO

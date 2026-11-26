@@ -4,11 +4,11 @@
 Run the notebook in order. It creates sample tables in the scratch schema; verify the catalog/schema widgets before executing write cells.
 
 ## Walkthrough
-1. Run the bronze cell to create/append raw records. Inspect the table and note its row count and raw shape.
+1. Run the bronze cell to create the table and insert events whose `event_id` is new. Inspect the row count and check that the original JSON is preserved.
 2. Run the silver cell. Review the transformations: type casting, invalid-record filtering, and deduplication by key. Compare its count and schema with bronze.
 3. Run the gold `MERGE` cell. Confirm the aggregate/upsert output and note the fully qualified table name and row count.
-4. Run the time-travel cell. Compare the historical version with the current table and describe the difference.
-5. Read the Auto Loader note. For production, identify a durable checkpoint location unique to the stream; do not use a temporary local path. State the durable `schemaLocation` and `checkpointLocation` paths under the topic 02 `playbook_files` Volume and the pipeline identity permissions (`READ VOLUME`, `WRITE VOLUME`). This is a design exercise only; do not configure or run Auto Loader.
+4. Run the time-travel cell and compare the row counts. On a first run in an empty lab schema, the saved bronze version has zero rows and the current version has four. On a rerun with the same events, both have four.
+5. Read the Auto Loader note. For production, identify a durable checkpoint location unique to the stream; do not use a temporary local path. State the durable `schemaLocation` and `checkpointLocation` paths under the [topic 02 volume](../02-unity-catalog/LESSON.md) named `playbook_files` and the pipeline identity permissions (`READ VOLUME`, `WRITE VOLUME`). This is a design exercise only; do not configure or run Auto Loader.
 6. Add a Markdown cell with the bronze, silver, and gold table names, row counts, and proposed checkpoint path.
 
 ## Check your work

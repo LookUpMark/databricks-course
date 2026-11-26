@@ -39,7 +39,6 @@
 # MAGIC
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — list apps via the REST API
-# COMMAND ----------
 from databricks.sdk import WorkspaceClient
 
 client = WorkspaceClient()
@@ -68,5 +67,6 @@ for app in apps:
 # MAGIC Then a markdown cell:
 # MAGIC
 # MAGIC 1. The URL(s) you found + who can use them.
-# MAGIC 2. One paragraph: what this project's app would do — ops dashboard over curated UC
-# MAGIC    tables, an agent from Assignment 12, or an app against Lakebase (Assignment 11)?
+# MAGIC 2. In one paragraph, choose a pattern for the project and explain why. Consider an
+# MAGIC    analytics dashboard over curated Unity Catalog data, an operational app backed by
+# MAGIC    Lakebase, or an agent interface powered by Agent Bricks.

@@ -12,6 +12,8 @@ The job is defined in [resources/sample_job.job.yml](../../resources/sample_job.
 
 See [Run the bundle](../../README.md#run-the-bundle) for the local commands, setup and cleanup.
 
+A run override changes the notebook widgets and wheel arguments. The pipeline uses the catalog and schema from deployment. Update the bundle variables and redeploy `dev` to change the destination for all three tasks. See [how catalog and schema reach the tasks](../../course/09-lakeflow-jobs/LESSON.md#how-catalog-and-schema-reach-the-tasks).
+
 ## playbook_etl
 
 The pipeline executes in serverless Lakeflow compute and publishes into the bundle's configured catalog and schema. Its batch queries use `@dp.materialized_view`.

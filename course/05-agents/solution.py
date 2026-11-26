@@ -10,7 +10,6 @@
 
 # COMMAND ----------
 # DBTITLE 1,Install agent dependencies (serverless/classic)
-# COMMAND ----------
 # MAGIC %pip install -q "langchain==1.2.10" "langgraph==1.0.10" "langgraph-prebuilt==1.0.8" "databricks-langchain==0.22.0" "mlflow[databricks]==3.18.0"
 # COMMAND ----------
 
@@ -35,7 +34,6 @@ if not identifier.fullmatch(catalog) or not identifier.fullmatch(schema):
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — a simple tool
-# COMMAND ----------
 from databricks_langchain import ChatDatabricks
 from langchain_core.tools import tool
 
@@ -58,7 +56,6 @@ def sql_lookup(table: str) -> str:
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — minimal agent
-# COMMAND ----------
 from langchain.agents import create_agent
 
 scratch_table = f"{catalog}.{schema}.orders"
@@ -67,7 +64,6 @@ agent = create_agent(llm, tools=[sql_lookup])
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 3 — log the agent to MLflow with tracing
-# COMMAND ----------
 import mlflow
 
 user = spark.sql("SELECT current_user()").first()[0]
@@ -89,7 +85,7 @@ with mlflow.start_run(run_name="assignment-05-react-agent") as active_run:
 run = mlflow.get_run(run_id)
 print(f"Run id: {run_id}")
 print(f"Experiment id: {run.info.experiment_id}")
-print("Open the experiment from Machine Learning → Experiments and inspect the trace.")
+print("Open the experiment in Machine Learning → Experiments and select Traces.")
 
 # COMMAND ----------
 # MAGIC %md
@@ -102,15 +98,15 @@ print("Open the experiment from Machine Learning → Experiments and inspect the
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC
-# MAGIC Add a markdown cell with: the MLflow run link (and a model URI only if you separately log a model artifact), one question the agent answered
-# MAGIC using its tool, and a short plan (tools, prompts, eval criteria) for a real
-# MAGIC production agent.
+# MAGIC In a Markdown cell, record the MLflow run link, the trace link or ID if available, and one
+# MAGIC tool-grounded question and answer. Add a short production plan covering tools, prompts, and
+# MAGIC evaluation criteria. Include a model URI only if you separately logged a deployable artifact.
 
 # COMMAND ----------
 # MAGIC %md
 # MAGIC ## Worked deliverable (example)
 # MAGIC
-# MAGIC Run URL: open the printed run id under Machine Learning → Experiments.
+# MAGIC Run URL: find the printed run ID in the experiment. Trace evidence: open the invocation in Traces and record its link or ID if available.
 # MAGIC Example-only URL shape: `https://<workspace>/ml/experiments/<experiment-id>/runs/<run-id>` (synthetic; replace with the real link).
 # MAGIC Example tool-grounded question: “How many rows are in `<catalog>.<schema>.orders`?” For the five synthetic orders in topic 03, the expected count is 5. Confirm the SQL tool span before attributing that output to the tool.
 # MAGIC Production plan: allow-list tables and columns, use a read-only SQL identity, enforce query timeouts, instruct the model to cite tool results, and evaluate exact count correctness, permission-denial behavior, and prompt-injection resistance on a fixed golden set.

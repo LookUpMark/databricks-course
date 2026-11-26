@@ -57,9 +57,13 @@ df.agg({"value": "avg"}).show()
 # MAGIC ```
 # MAGIC Observe: job-level parameters (`catalog`, `schema`), the job/task run IDs in
 # MAGIC the deployed sample notebook output, and the dev-prefixed job name. The YAML
-# MAGIC has no explicit retry policy; choose one for your design exercise. Production is a separate deployment
-# MAGIC mode with a stable root path and active schedule; describe that difference
-# MAGIC in LESSON.md. The course bundle declares only the dev target.
+# MAGIC has no explicit retry policy. Choose one for your design exercise. Development mode prefixes
+# MAGIC resource names and pauses the periodic trigger. A production target would explicitly configure
+# MAGIC its deployment path, identity, and trigger state.
+# MAGIC
+# MAGIC Keep the deployed `catalog` and `schema` values for the run. A run override affects the notebook
+# MAGIC and wheel. The pipeline uses the catalog and schema from deployment. Change the bundle variables
+# MAGIC and redeploy `dev` to change the destination for the whole DAG.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC
@@ -74,4 +78,4 @@ df.agg({"value": "avg"}).show()
 # MAGIC
 # MAGIC Job link: `https://<workspace>/jobs/<job-id>` and run link: `https://<workspace>/jobs/<job-id>/runs/<run-id>` are synthetic URL shapes. Replace both with links from your dev deployment/run. Record the job and task run IDs printed in the deployed sample notebook task output. The DAG in this bundle is notebook → (`python_wheel_task` and `refresh_pipeline` in parallel). A separate ingest → train → evaluate design could use a notebook ingest task, Python wheel training task, and notebook evaluation task with explicit dependencies and a chosen retry policy for transient failures.
 # MAGIC
-# MAGIC `--target dev` enables development mode, prefixes resource names, and pauses schedules. In a production bundle I would configure a stable root path, approved identity and an explicit schedule. This lab uses the personal `dev` target. Cleanup: undeploy only your dev bundle after saving evidence; never remove shared workspace resources.
+# MAGIC The `dev` target prefixes resource names and pauses the periodic trigger. For production, I would explicitly configure the deployment path, identity, and trigger state. After saving the evidence, clean up your personal dev bundle according to the lesson.

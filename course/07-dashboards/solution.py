@@ -25,7 +25,6 @@ if not identifier.fullmatch(catalog) or not identifier.fullmatch(schema):
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — curated view with revenue semantics
-# COMMAND ----------
 # Business logic lives in the view so every dashboard dataset agrees on it.
 scratch = f"`{catalog}`.`{schema}`"
 
@@ -42,7 +41,6 @@ print("View created.")
 
 # COMMAND ----------
 # DBTITLE 1,Verify the datasets the dashboard will use
-# COMMAND ----------
 # Dataset 1: daily revenue trend
 spark.sql(f"""
 SELECT order_date, sum(revenue) AS daily_revenue

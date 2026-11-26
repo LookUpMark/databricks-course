@@ -1,14 +1,12 @@
 # src/playbook/config/settings.yaml (general domain)
 
-Values identifying the project and its default deployment context.
+Example values for code that consumes the package settings.
 
 | Key | Model field | Meaning |
 |---|---|---|
-| `project_name` | `GeneralSettings.project_name` | Logical name for resources and log prefixes |
-| `catalog` | `GeneralSettings.catalog` | Default Unity Catalog catalog |
-| `schema` | `GeneralSettings.schema_name` (also available as `.schema`) | Default schema inside `catalog` |
-| `log_level` | `GeneralSettings.log_level` | Level for `utils.logging.configure_logging` |
+| `project_name` | `GeneralSettings.project_name` | Example logical project name |
+| `catalog` | `GeneralSettings.catalog` | Example Unity Catalog catalog |
+| `schema` | `GeneralSettings.schema_name` (also available as `.schema`) | Example schema inside `catalog` |
+| `log_level` | `GeneralSettings.log_level` | Example log level for callers configuring Loguru |
 
-Only `log_level` has a default (`INFO`); the other three are required. Edit
-these values when forking the template — everything downstream reads them from
-the validated model, never from literals.
+The model defaults `log_level` to `INFO` and requires the other three fields. The bundle sets its resource names and destination in YAML. The wheel receives its catalog and schema as required arguments and configures logging at `INFO`.

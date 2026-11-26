@@ -9,7 +9,7 @@
 # MAGIC
 # MAGIC ```bash
 # MAGIC uv tool install databricks-agentbricks
-# MAGIC databricks auth login --host https://<workspace-url> --profile course
+# MAGIC databricks auth login --host 'https://<workspace-url>' --profile course
 # MAGIC agentbricks login --profile course
 # MAGIC agentbricks init --framework langgraph my-agent
 # MAGIC cd my-agent

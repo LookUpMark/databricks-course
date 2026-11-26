@@ -8,13 +8,13 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class GeneralSettings(BaseModel):
-    """Project-wide identity and default Databricks context.
+    """Example project settings for consumers of the package configuration.
 
     Attributes:
-        project_name: Logical name used in resource names and log prefixes.
-        catalog: Default Unity Catalog catalog.
-        schema_name: Default schema inside the configured catalog.
-        log_level: Level for the centralized loguru configuration.
+        project_name: Logical project name.
+        catalog: Example Unity Catalog catalog.
+        schema_name: Example schema inside the configured catalog.
+        log_level: Logging level for callers configuring Loguru.
     """
 
     model_config = ConfigDict(serialize_by_alias=True)

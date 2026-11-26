@@ -51,7 +51,8 @@
 # MAGIC
 # MAGIC Write `latest-job-state.sh`. The script should take the exact display name as
 # MAGIC its argument, list jobs as JSON, find exactly one match, and display the state of its latest-started
-# MAGIC run. Handle the missing and ambiguous cases plus a job with no runs.
+# MAGIC run. Handle missing and ambiguous jobs and jobs with no runs. Read the run's `status` and
+# MAGIC support legacy `state` fields for older responses.
 # MAGIC
 # MAGIC Start with:
 # MAGIC

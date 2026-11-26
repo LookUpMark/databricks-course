@@ -50,7 +50,6 @@
 # MAGIC
 # COMMAND ----------
 # DBTITLE 1,Optional observation — check an actual deployed app in the UI
-# COMMAND ----------
 # MAGIC %md
 # MAGIC Deployment is optional. If you deployed with authorization, record the actual returned URL
 # MAGIC and inspect the app in **Databricks Apps**. If you did not deploy, record “not deployed”.

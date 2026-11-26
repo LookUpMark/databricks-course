@@ -1,7 +1,9 @@
 # Assignment 09 — Lakeflow Jobs
 
 ## Before you start
-Review `resources/sample_job.job.yml` and ensure the Databricks CLI is authenticated to the intended workspace. The exercise deploys to `dev`; do not deploy to production as part of this walkthrough.
+Follow the [bundle setup](../../README.md#run-the-bundle) and use an existing [personal Unity Catalog schema](../02-unity-catalog/LESSON.md). Review the [job YAML](../../resources/sample_job.job.yml) and the [pipeline YAML](../../resources/playbook_etl.pipeline.yml). This walkthrough uses the `dev` target.
+
+The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MATERIALIZED VIEW` on the destination. It also needs `SELECT` on `samples.nyctaxi.trips` and usage privileges on the source catalog and schema. The job's identity needs usage privileges on the destination and read access to the same sample table for the wheel task. See [pipeline permissions](https://docs.databricks.com/aws/en/ldp/privileges) and [Unity Catalog requirements for pipelines](https://docs.databricks.com/aws/en/ldp/unity-catalog#requirements).
 
 ## Walkthrough
 1. In the YAML, identify the `notebook_task`, `python_wheel_task`, and `refresh_pipeline` task types, parameters, compute configuration, and dependencies. The sample job YAML has no explicit retry policy; note this separately from the retry policy you choose for your design exercise. Note the job key `sample_job`.
@@ -12,23 +14,24 @@ Review `resources/sample_job.job.yml` and ensure the Databricks CLI is authentic
    export BUNDLE_VAR_schema="your_writable_schema"
    databricks bundle validate --target dev
    ```
-   Replace `your_writable_schema` with the real schema identifier; inspect validation errors before deployment.
+   Replace both placeholders with the real catalog and schema identifiers. Use letters, digits, and underscores, starting with a letter or underscore. Inspect validation errors before deployment.
 3. Deploy and run only the dev target:
    ```bash
    databricks bundle deploy --target dev
    databricks bundle run sample_job --target dev
    ```
    Wait for the command to return a run URL or ID.
-4. Open the run URL in the workspace UI. Inspect task status, dependency graph, compute, parameters, logs, and output. Confirm the run succeeded. In the `notebook_task` output, record the `Job run ID` and `Task run ID` printed by the sample notebook; these are passed using supported dynamic value references.
-5. In the Jobs UI, open the deployed job and compare its `[dev ...]` name with the resource definition. Do not deploy `prod` for this exercise.
+4. Open the run URL in the workspace UI. Inspect task status, dependency graph, compute, parameters, logs, and output. Confirm the run succeeded. In the [notebook task](../../src/sample_notebook.py) output, record the `Job run ID` and `Task run ID` printed by the sample notebook; these are passed using supported dynamic value references.
+5. In **Jobs & Pipelines**, open `[dev <workspace-user-short-name>] sample_job` and compare the display name with the `sample_job` resource key.
 6. Design a separate three-task ingest → train → evaluate DAG in a Markdown cell. Specify task types, dependencies, and a sensible retry policy; also state what the `dev` target changed.
+
+### How catalog and schema reach the tasks
+
+A job run override of `catalog` or `schema` changes the notebook widgets and wheel arguments. The pipeline task runs the existing pipeline, which publishes to the catalog and schema set when the bundle was deployed. For the lab, run with the deployed defaults. To move the whole DAG to another personal schema, update `BUNDLE_VAR_catalog` and `BUNDLE_VAR_schema`, then redeploy `dev` before running again. See [job parameter pushdown](https://docs.databricks.com/aws/en/jobs/job-parameters#job-parameter-pushdown) and [pipeline destinations](https://docs.databricks.com/aws/en/ldp/target-schema).
 
 ## How a production target would differ
 
-This bundle deploys only the personal `dev` target. A separate production
-configuration would use a managed identity, an owner-controlled deployment
-path, and an explicit trigger schedule and permissions. The following fragment
-illustrates the mode; a real production target requires those additional settings.
+This bundle defines the personal `dev` target. In `development` mode, the CLI prefixes deployed resource names and pauses the periodic trigger. For a production target, configure the deployment identity, an owner-controlled `workspace.root_path`, the desired trigger state, and permissions explicitly. The following fragment selects the mode. See [bundle deployment modes](https://docs.databricks.com/aws/en/dev-tools/bundles/deployment-modes).
 
 ```yaml
 targets:
@@ -46,4 +49,4 @@ Record the dev job URL, successful run ID from the job run, job and task run IDs
 See [solution.py](solution.py) for a complete example with an example deliverable. Replace synthetic links and execution-specific values with evidence from your workspace.
 
 ## Access, expected result, and cleanup
-Run commands from the bundle repository root with an authenticated CLI profile named `course`; the identity needs permission to validate/deploy the bundle, create/run jobs, use serverless job environments, and create/refresh the Unity Catalog pipeline and its destination tables. Set `BUNDLE_VAR_catalog` and `BUNDLE_VAR_schema` to an existing writable destination. Validate first, deploy only `dev`, then run `sample_job`. The expected DAG is `notebook_task` followed by `python_wheel_task` and `refresh_pipeline` in parallel; inspect the run graph and task logs in **Jobs & Pipelines → Jobs → sample_job → Runs**. Development mode prefixes resource names and pauses the periodic trigger. The course has only a development target. When finished, remove only your development bundle resources after saving the job/run evidence.
+The deploying identity needs permission to create and run jobs and pipelines on serverless compute in the selected workspace. The expected DAG is `notebook_task` followed by `python_wheel_task` and `refresh_pipeline` in parallel. Within the pipeline, the fares aggregate reads the trips materialized view. Save the job and run evidence before following the [bundle cleanup instructions](../../README.md#run-the-bundle).

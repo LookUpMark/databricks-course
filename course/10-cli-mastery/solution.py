@@ -28,7 +28,8 @@
 # MAGIC
 # MAGIC Save as `latest-job-state.sh`, pass the exact displayed job name as the first argument, and run
 # MAGIC from an authenticated terminal with `jq` installed. It handles array and object responses,
-# MAGIC zero or multiple exact matches, an empty run list, and missing state fields. It selects the run with the most recent start time.
+# MAGIC zero or multiple exact matches, and an empty run list. It selects the run with the most recent
+# MAGIC start time and reads the current or legacy run status fields.
 # MAGIC
 # MAGIC ```bash
 # MAGIC #!/usr/bin/env bash
@@ -49,7 +50,9 @@
 # MAGIC databricks jobs list-runs --job-id "$job_id" -o json | jq -er --arg name "$job_name" --arg id "$job_id" '
 # MAGIC   (if type == "array" then . else .runs // [] end)
 # MAGIC   | if length == 0 then error("no runs found") else max_by(.start_time // 0) end
-# MAGIC   | "job=\($name) id=\($id) state=\(.state.result_state // .state.life_cycle_state // "unknown") start=\(.start_time // "unknown")"
+# MAGIC   | (.status.termination_details.code // .state.result_state // .status.state
+# MAGIC      // .state.life_cycle_state // "unknown") as $state
+# MAGIC   | "job=\($name) id=\($id) state=\($state) start=\(.start_time // "unknown")"
 # MAGIC '
 # MAGIC ```
 # MAGIC

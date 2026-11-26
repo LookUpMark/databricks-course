@@ -15,18 +15,15 @@ downstream code — the same immutability guarantee as `JobArgs`.
 
 Single chain step from "what the user asked" to "what the job will use".
 
-1. Reads `args.catalog` and `args.schema` from the parsed CLI arguments.
-2. Reads the defaults in `settings.general` (available as fallback values for
-   future policies, e.g. "use settings when the argument is empty").
-3. Returns a new frozen `JobContext(catalog=args.catalog, schema=args.schema)`.
+1. Reads and trims `args.catalog` and `args.schema`.
+2. Validates both names against `[A-Za-z_][A-Za-z0-9_]*` and raises `ValueError` for invalid values.
+3. Returns a frozen `JobContext` containing the validated names.
 
-Today arguments always win; the settings parameter keeps the function
-extensible without changing its signature.
+The `settings` argument is retained for interface compatibility. The job requires both CLI arguments.
 
 ## Interactions
 
 - Called by: `main.py::run`.
 - Depends on: `JobArgs` (from `utils.cli_parser`), `Settings` (from `config`),
   both as injected values.
-- Tests: `tests/unit/playbook/test_context.py` — argument precedence and
-  frozenness.
+- Tests: `tests/unit/playbook/test_context.py` — explicit arguments, trimming, validation, and immutability.

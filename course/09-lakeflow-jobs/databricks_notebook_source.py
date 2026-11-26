@@ -57,9 +57,13 @@ df.agg({"value": "avg"}).show()
 # MAGIC ```
 # MAGIC Observe: job-level parameters (`catalog`, `schema`), the job/task run IDs in
 # MAGIC the deployed sample notebook output, and the dev-prefixed job name. The YAML
-# MAGIC has no explicit retry policy; choose one for your design exercise. Production is a separate deployment
-# MAGIC mode with a stable root path and active schedule; describe that difference
-# MAGIC in LESSON.md. The course bundle declares only the dev target.
+# MAGIC has no explicit retry policy. Choose one for your design exercise. Development mode prefixes
+# MAGIC resource names and pauses the periodic trigger. A production target would explicitly configure
+# MAGIC its deployment path, identity, and trigger state.
+# MAGIC
+# MAGIC Keep the deployed `catalog` and `schema` values for the run. A run override affects the notebook
+# MAGIC and wheel. The pipeline uses the catalog and schema from deployment. Change the bundle variables
+# MAGIC and redeploy `dev` to change the destination for the whole DAG.
 # MAGIC
 # MAGIC ## Deliverable
 # MAGIC

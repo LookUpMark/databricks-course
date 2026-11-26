@@ -25,19 +25,34 @@ if not identifier.fullmatch(catalog) or not identifier.fullmatch(schema):
 
 # COMMAND ----------
 # DBTITLE 1,Create a synthetic Unity Catalog source table
-src = f"`{catalog}`.`{schema}`"
-spark.sql(f"""
-CREATE OR REPLACE TABLE {src}.lakebase_source AS
+source_table = f"`{catalog}`.`{schema}`.lakebase_source"
+fixture = """
 SELECT * FROM VALUES
-  (1, 'synthetic_user_a', 0.92),
-  (2, 'synthetic_user_b', 0.35),
-  (3, 'synthetic_user_c', 0.88)
-AS t(user_id, segment, engagement_score)
+  (1, 'power_user', 0.92, DATE '2026-11-20'),
+  (2, 'casual',     0.35, DATE '2026-11-21'),
+  (3, 'power_user', 0.88, DATE '2026-11-22')
+AS t(user_id, segment, engagement_score, last_seen_date)
+"""
+spark.sql(f"""
+CREATE TABLE IF NOT EXISTS {source_table}
+USING DELTA
+COMMENT 'SYNTHETIC DEMO DATA. Example UC source for a Lakebase snapshot.'
+AS {fixture}
 """)
-spark.sql(
-    f"COMMENT ON TABLE {src}.lakebase_source IS 'SYNTHETIC DEMO DATA. Example source for an optional Lakebase snapshot exercise.'"
-)
-spark.sql(f"SELECT * FROM {src}.lakebase_source ORDER BY user_id").show(truncate=False)
+
+expected = spark.sql(fixture)
+source = spark.table(source_table)
+expected_rows = expected.orderBy("user_id").collect()
+if (
+    source.schema.simpleString() != expected.schema.simpleString()
+    or source.orderBy("user_id").take(len(expected_rows) + 1) != expected_rows
+):
+    raise ValueError(
+        f"{source_table} already contains different data or has a different schema. "
+        "Use a personal lab schema without that table before creating a sync."
+    )
+print(f"Verified synthetic source table: {source_table}")
+source.orderBy("user_id").show(truncate=False)
 
 # COMMAND ----------
 # MAGIC %md
@@ -45,7 +60,7 @@ spark.sql(f"SELECT * FROM {src}.lakebase_source ORDER BY user_id").show(truncate
 # MAGIC
 # MAGIC ```text
 # MAGIC Project/branch: not inspected in this example; fill from the assigned workspace.
-# MAGIC Synced table: not created. Create only if explicitly authorized.
+# MAGIC Synced table: skipped in this example. Record the reason if you skip the sync.
 # MAGIC Data rule: a UC synced snapshot is an app-facing copy; operational Postgres records
 # MAGIC remain in Postgres when Postgres is the system of record.
 # MAGIC ```

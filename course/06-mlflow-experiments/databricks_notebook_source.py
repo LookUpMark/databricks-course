@@ -10,9 +10,7 @@
 # MAGIC **Goal**: structure experiments properly, compare runs programmatically.
 
 # COMMAND ----------
-# COMMAND ----------
 # DBTITLE 1,Exercise 1 — experiment setup
-# COMMAND ----------
 from uuid import uuid4
 
 import mlflow
@@ -25,7 +23,6 @@ print(f"Experiment: {EXPERIMENT_PATH}")
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — three training runs
-# COMMAND ----------
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
@@ -47,7 +44,6 @@ for regularization in [0.1, 1.0, 10.0]:
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 3 — find the best run and log its report
-# COMMAND ----------
 best = mlflow.search_runs(
     experiment_ids=[experiment.experiment_id],
     filter_string=f"tags.course_session = '{session_id}'",
@@ -70,7 +66,7 @@ with mlflow.start_run(run_id=best.run_id):
 # MAGIC mlflow.set_registry_uri("databricks-uc")
 # MAGIC mlflow.register_model(best_model_uri, "YOUR_CATALOG.YOUR_SCHEMA.playbook_classifier")
 # MAGIC # Registration requires Unity Catalog privileges to create/use the model and
-# MAGIC # create versions. Then set alias 'champion' on the approved version.
+# MAGIC # create versions. Setting an alias also requires ownership of the registered model.
 # MAGIC ```
-# MAGIC Aliases (`@champion`) decouple consumers from version numbers — prefer them
-# MAGIC for anything deployed.
+# MAGIC An alias such as `@champion` follows the approved version when it is reassigned.
+# MAGIC Setting an alias requires ownership of the model, `USE CATALOG`, and `USE SCHEMA`.

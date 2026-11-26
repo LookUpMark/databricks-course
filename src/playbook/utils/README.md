@@ -2,13 +2,10 @@
 
 Shared package utilities.
 
-## Expected contents
+## Modules
 
-- `logging.py` — centralized **loguru** configuration: format, level,
-  sinks (stdout/file). Import it at the start of every task.
-- `cli_parser.py` — custom parser for CLI arguments
-  (argparse or click). Used by tasks to receive job parameters.
-- `helpers.py` — common utilities (dates, paths, I/O, ...).
+- [logging.py](logging.py) configures Loguru format and level and writes to `stderr`.
+- [cli_parser.py](cli_parser.py) uses `argparse` to read job arguments.
 
 ## Conventions
 

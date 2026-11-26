@@ -1,9 +1,10 @@
 """Execution context resolution.
 
-Pure function chain step: turn CLI arguments plus settings into the effective
-Unity Catalog context. No runtime dependencies, trivially testable.
+Validate CLI arguments and return the effective Unity Catalog context.
+This module requires no Databricks runtime.
 """
 
+import re
 from dataclasses import dataclass
 
 from playbook.config import Settings
@@ -24,13 +25,19 @@ class JobContext:
 
 
 def resolve_context(args: JobArgs, settings: Settings) -> JobContext:
-    """Resolve the effective context, preferring CLI arguments over settings.
+    """Resolve the effective Unity Catalog context from explicit arguments.
 
     Args:
         args: Arguments parsed from the command line.
-        settings: Validated project settings with the fallback values.
+        settings: Validated project settings, retained for interface compatibility.
 
     Returns:
         The context to apply before running any data operation.
+
+    Raises:
+        ValueError: If either argument is not a simple Unity Catalog identifier.
     """
-    return JobContext(catalog=args.catalog, schema=args.schema)
+    catalog, schema = args.catalog.strip(), args.schema.strip()
+    if not all(re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", part) for part in (catalog, schema)):
+        raise ValueError("Set catalog and schema to simple Unity Catalog identifiers before running the job.")
+    return JobContext(catalog=catalog, schema=schema)

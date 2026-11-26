@@ -1,7 +1,7 @@
 # Databricks notebook source
 # Assignment 08 - ETL Pipelines (medallion architecture).
 # Simulates bronze -> silver -> gold on small JSON data, exercising Delta
-# features: MERGE, time travel, table properties.
+# features: MERGE and time travel.
 
 # COMMAND ----------
 # MAGIC %md
@@ -25,7 +25,6 @@ scratch = f"`{catalog}`.`{schema}`"
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 1 — bronze: raw data as it lands
-# COMMAND ----------
 import json
 
 from pyspark.sql import Window
@@ -39,18 +38,14 @@ raw_records = [
 ]
 bronze_path = f"{scratch}.bronze_events"
 source = spark.createDataFrame([(json.dumps(row),) for row in raw_records], "raw STRING")
-if not spark.catalog.tableExists(bronze_path):
-    spark.createDataFrame([], "raw STRING").write.format("delta").saveAsTable(bronze_path)
+spark.sql(f"CREATE TABLE IF NOT EXISTS {bronze_path} (raw STRING) USING DELTA")
 bronze_version = spark.sql(f"DESCRIBE HISTORY {bronze_path}").collect()[0]["version"]
-incoming = source.select(
-    F.from_json("raw", "event_id STRING, id STRING, name STRING, amount STRING, ts STRING").alias("j")
-).select("j.*")
-incoming.createOrReplaceTempView("incoming_events")
+# Extract the event ID for matching while keeping the original JSON string.
+source.createOrReplaceTempView("incoming_events")
 spark.sql(f"""
 MERGE INTO {bronze_path} AS target
-USING (SELECT to_json(named_struct('event_id', event_id, 'id', id, 'name', name, 'amount', amount, 'ts', ts)) AS raw FROM incoming_events) AS source
+USING incoming_events AS source
 ON get_json_object(target.raw, '$.event_id') = get_json_object(source.raw, '$.event_id')
-WHEN MATCHED THEN UPDATE SET target.raw = source.raw
 WHEN NOT MATCHED THEN INSERT (raw) VALUES (source.raw)
 """)
 print(f"Bronze rows: {spark.table(bronze_path).count()}")
@@ -58,7 +53,6 @@ spark.table(bronze_path).show(truncate=False)
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 2 — silver: clean, dedupe, type
-# COMMAND ----------
 silver = (
     spark.table(bronze_path)
     .select(F.from_json("raw", "event_id STRING, id STRING, name STRING, amount STRING, ts STRING").alias("j"))
@@ -81,7 +75,6 @@ spark.table(f"{scratch}.silver_events").show(truncate=False)
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 3 — gold: MERGE into aggregate
-# COMMAND ----------
 totals = silver_df.groupBy("id").agg(F.sum("amount").alias("total_amount"))
 gold = f"{scratch}.gold_customer_totals"
 spark.sql(f"""
@@ -100,16 +93,18 @@ spark.table(gold).show(truncate=False)
 
 # COMMAND ----------
 # DBTITLE 1,Exercise 4 — time travel
-# COMMAND ----------
 print(f"Bronze version captured before this run's merge: {bronze_version}")
-spark.sql(f"SELECT * FROM {bronze_path} VERSION AS OF {bronze_version}").show(truncate=False)
+previous_bronze = spark.sql(f"SELECT * FROM {bronze_path} VERSION AS OF {bronze_version}")
+print(f"Bronze rows before this run: {previous_bronze.count()}")
+print(f"Bronze rows after this run: {spark.table(bronze_path).count()}")
+previous_bronze.show(truncate=False)
 
 # COMMAND ----------
 # MAGIC %md
 # MAGIC ## Exercise 5 (documented) — production bronze with Auto Loader
 # MAGIC
-# MAGIC Replace the simulated append with `spark.readStream.format("cloudFiles")`,
-# MAGIC schema inference/evolution, and a **checkpoint location** per pipeline
+# MAGIC Replace the simulated ingestion with `spark.readStream.format("cloudFiles")`,
+# MAGIC schema inference/evolution, and a **checkpoint location** per stream
 # MAGIC (e.g. `/Volumes/{catalog}/{schema}/playbook_files/autoloader/checkpoints/bronze_events`). This is architecture design only; do not configure or run Auto Loader in this lab.
 # MAGIC A checkpoint stores offsets and state for recovery; it does not by itself guarantee end-to-end exactly-once behavior. Use the existing topic 02 `/Volumes/{catalog}/{schema}/playbook_files` Volume; the pipeline identity needs `READ VOLUME` and `WRITE VOLUME`. Keep `cloudFiles.schemaLocation` and `checkpointLocation` in separate durable paths unique to the stream, for example `/Volumes/{catalog}/{schema}/playbook_files/autoloader/schemas/bronze_events` and `/Volumes/{catalog}/{schema}/playbook_files/autoloader/checkpoints/bronze_events`. Configure source and sink idempotently, and do not delete the checkpoint to "reset" a stream without understanding replay effects.
 # MAGIC

@@ -57,7 +57,7 @@ for app in apps:
 # MAGIC ```text
 # MAGIC Apps visible: none observed in this example; replace with your actual result.
 # MAGIC URL/state/permissions: not observed; do not infer deployment from the YAML snippet.
-# MAGIC Fit: an analytics app is a reasonable candidate for read-only views over curated UC data;
-# MAGIC an operational app may fit Lakebase; an agent interface may fit Agent Bricks. Select based
-# MAGIC on actual project requirements and explicitly grant only required data access.
+# MAGIC Fit: an analytics dashboard can read curated Unity Catalog views. An operational app
+# MAGIC can use Lakebase as its data store, and an agent interface can use Agent Bricks.
+# MAGIC Choose based on the project requirements and grant only the data access it needs.
 # MAGIC ```
