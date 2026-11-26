@@ -59,7 +59,7 @@ def sql_lookup(table: str) -> str:
 from langchain.agents import create_agent
 
 scratch_table = f"{catalog}.{schema}.orders"
-llm = ChatDatabricks(endpoint=endpoint)
+llm = ChatDatabricks(model=endpoint, use_ai_gateway=True)
 agent = create_agent(llm, tools=[sql_lookup])
 
 # COMMAND ----------
