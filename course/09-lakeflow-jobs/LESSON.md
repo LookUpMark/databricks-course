@@ -7,6 +7,12 @@ The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MA
 
 ## Walkthrough
 1. In the YAML, identify the `notebook_task`, `python_wheel_task`, and `refresh_pipeline` task types, parameters, compute configuration, and dependencies. The sample job YAML has no explicit retry policy; note this separately from the retry policy you choose for your design exercise. Note the job key `sample_job`.
+
+   **Job task order:** `depends_on` in `sample_job.job.yml` makes `notebook_task` a prerequisite of both downstream tasks. After it succeeds, `python_wheel_task` and `refresh_pipeline` run in parallel. This controls job tasks only.
+
+   **Order inside the pipeline:** the `glob` in `playbook_etl.pipeline.yml` loads both transformation files; its file order does not control execution. Lakeflow builds a dataset dependency graph from the reads in the source files. `sample_trips_playbook.py` reads `samples.nyctaxi.trips`, and `sample_zones_playbook.py` reads the pipeline dataset `sample_trips_playbook`, so Lakeflow computes the trips view before the zones aggregate. Datasets without a dependency may run in parallel.
+
+   Lakeflow also supports explicit flow ordering with `depends_on` on `@dp.append_flow` and `@dp.update_flow`. This feature is in Public Preview and requires the pipeline `PREVIEW` channel. It starts a dependent flow only after its predecessor completes successfully; it is not a general sequence setting for all datasets. The two transformations in this lab are `@dp.materialized_view` definitions, which do not accept this flow-level option. Their order comes from the actual table read above. See [flow ordering with `depends_on`](https://docs.databricks.com/aws/en/ldp/flows-depends-on) and the [`@dp.materialized_view` reference](https://docs.databricks.com/aws/en/ldp/developer/ldp-python-ref-materialized-view).
 2. From the bundle repository root, select the named CLI profile and provide the catalog and your pre-created writable schema:
    ```bash
    export DATABRICKS_CONFIG_PROFILE=course
