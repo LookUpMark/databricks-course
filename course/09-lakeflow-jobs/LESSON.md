@@ -15,6 +15,15 @@ The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MA
    databricks bundle validate --target dev
    ```
    Replace both placeholders with the real catalog and schema identifiers. Use letters, digits, and underscores, starting with a letter or underscore. Inspect validation errors before deployment.
+
+   Alternatively, store the catalog and schema values for `dev` in a local override file so you do not need to export them in each terminal session. From the repository root, create `.databricks/bundle/dev/variable-overrides.json` (create the parent directories if needed) with:
+   ```json
+   {
+     "catalog": "your_writable_catalog",
+     "schema": "your_writable_schema"
+   }
+   ```
+   Replace the placeholders with your real identifiers. Use either this file or the two `BUNDLE_VAR_...` exports above. If those environment variables are already set, unset them with `unset BUNDLE_VAR_catalog BUNDLE_VAR_schema`; environment variables take precedence over the override file. The `.databricks/` directory is ignored by Git, so this personal file stays local.
 3. Continue only after `bundle validate` succeeds and its output has no unresolved errors. Deploy and run only the dev target:
    ```bash
    databricks bundle deploy --target dev
@@ -27,7 +36,7 @@ The pipeline's run-as identity needs `USE CATALOG`, `USE SCHEMA`, and `CREATE MA
 
 ### How catalog and schema reach the tasks
 
-A job run override of `catalog` or `schema` changes the notebook widgets and wheel arguments. The pipeline task runs the existing pipeline, which publishes to the catalog and schema set when the bundle was deployed. For the lab, run with the deployed defaults. To move the whole DAG to another personal schema, update `BUNDLE_VAR_catalog` and `BUNDLE_VAR_schema`, then redeploy `dev` before running again. See [job parameter pushdown](https://docs.databricks.com/aws/en/jobs/job-parameters#job-parameter-pushdown) and [pipeline destinations](https://docs.databricks.com/aws/en/ldp/target-schema).
+A job run override of `catalog` or `schema` changes the notebook widgets and wheel arguments. The pipeline task runs the existing pipeline, which publishes to the catalog and schema set when the bundle was deployed. For the lab, run with the deployed defaults. To move the whole DAG to another personal schema, update the values using either the `BUNDLE_VAR_...` exports or the `dev` override file described in step 2, then redeploy `dev` before running again. See [job parameter pushdown](https://docs.databricks.com/aws/en/jobs/job-parameters#job-parameter-pushdown) and [pipeline destinations](https://docs.databricks.com/aws/en/ldp/target-schema).
 
 ## How a production target would differ
 
