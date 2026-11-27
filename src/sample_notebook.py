@@ -19,6 +19,8 @@ dbutils.widgets.text("catalog", "")
 dbutils.widgets.text("schema", "")
 dbutils.widgets.text("job_run_id", "")
 dbutils.widgets.text("task_run_id", "")
+# COMMAND ----------
+
 catalog = dbutils.widgets.get("catalog").strip()
 schema = dbutils.widgets.get("schema").strip()
 job_run_id = dbutils.widgets.get("job_run_id").strip()

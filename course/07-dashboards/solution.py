@@ -15,6 +15,8 @@ import re
 
 dbutils.widgets.text("catalog", defaultValue="")
 dbutils.widgets.text("schema", defaultValue="")
+# COMMAND ----------
+
 catalog = dbutils.widgets.get("catalog").strip()
 schema = dbutils.widgets.get("schema").strip()
 identifier = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")

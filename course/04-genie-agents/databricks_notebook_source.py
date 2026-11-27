@@ -14,6 +14,8 @@ import requests
 from databricks.sdk import WorkspaceClient
 
 dbutils.widgets.text("genie_space_id", "")
+# COMMAND ----------
+
 SPACE_ID = dbutils.widgets.get("genie_space_id").strip()
 
 # COMMAND ----------

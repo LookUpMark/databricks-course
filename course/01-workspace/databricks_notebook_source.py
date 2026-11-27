@@ -53,6 +53,8 @@ except OSError:
 
 # COMMAND ----------
 dbutils.widgets.text("name", defaultValue="Learner")
+# COMMAND ----------
+
 name = dbutils.widgets.get("name")
 print(f"Hello, {name}! Widgets are the standard way to parameterize notebooks.")
 

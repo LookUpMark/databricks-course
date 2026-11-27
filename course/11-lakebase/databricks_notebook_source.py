@@ -17,6 +17,8 @@
 # COMMAND ----------
 dbutils.widgets.text("catalog", defaultValue="")
 dbutils.widgets.text("schema", defaultValue="")
+# COMMAND ----------
+
 catalog = dbutils.widgets.get("catalog").strip()
 schema = dbutils.widgets.get("schema").strip()
 

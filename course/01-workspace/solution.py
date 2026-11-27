@@ -43,6 +43,8 @@ except OSError:
 
 # COMMAND ----------
 dbutils.widgets.text("name", "Learner")
+# COMMAND ----------
+
 name = dbutils.widgets.get("name").strip()
 if not name:
     raise ValueError("Set the name widget to a non-empty value.")

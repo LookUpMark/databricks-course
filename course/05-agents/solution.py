@@ -21,6 +21,8 @@ import re
 dbutils.widgets.text("catalog", defaultValue="")
 dbutils.widgets.text("schema", defaultValue="")
 dbutils.widgets.text("chat_endpoint", defaultValue="")
+# COMMAND ----------
+
 endpoint = dbutils.widgets.get("chat_endpoint").strip()
 if not endpoint:
     raise ValueError("Enter a workspace-approved chat model serving endpoint that supports tool calling.")
